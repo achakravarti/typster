@@ -3,6 +3,7 @@
 
 
 ## License
+[![GitHub license](https://img.shields.io/github/license/achakravarti/typster.svg)](https://github.com/achakravarti/typster/blob/master/LICENSE) 
 
 Copyright (c) 2019 [Abhishek Chakravarti][].  
 <<abhishek@taranjali.org>>
@@ -17,7 +18,7 @@ WARRANTY; without even the implied warranty of MERCHANTIBILITY or FITNESS FOR A
 PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a [copy][] of the GNU General Public License along
-with this Game; if not, contact the maintainer of this Library, Abhishek
+with this Game; if not, contact the maintainer of this Game, Abhishek
 Chakravarti, at <<abhishek@taranjali.org>>.
 
 
