@@ -39,12 +39,37 @@ to complete typing the word before it reaches the wall, the wall is damaged a
 bit. You lose the game when the wall is completely broken down.
 
 
+## Support
+[![Issues](http://img.shields.io/github/issues/achakravarti/typster.svg)](https://github.com/achakravarti/typster/issues) [![GitHub issues-closed](https://img.shields.io/github/issues-closed/achakravarti/typster.svg)](https://github.com/achakravarti/typster/issues?q=is%3Aissue+is%3Aclosed)  
+
+If you're playing this Game, and have encountered any issues that you would
+require support for, please open an issue through this Game's [issue
+tracker][]. 
+
+The following categories of support requests are welcome, each of which comes
+with its own label in the issue tracker:
+  * `bug` for a problem with an existing feature
+  * `enhancement` for an enhancement to an existing feature
+  * `feature` for a new feature request
+  * `query` for a query on an existing feature
+
+When documenting your issue, please keep the following points in mind:  
+  * Keep the title short and sweet
+  * Provide all relevant details in the description section
+  * Tag the issue with the appropriate label
+  * Do be polite and professional
+
+While every effort would be taken to address all support requests, please note
+that no guarantee is given that your support request would be resolved.
+
+
 * * *
 
 
 [Abhishek Chakravarti]:https://github.com/achakravarti
-[GNU General Public License]:https://choosealicense.com/licenses/gpl-3.0
-[Free Software Foundation]:https://www.fsf.org
-[version 3]:https://www.gnu.org/licenses/gpl-3.0.en.html
 [copy]:https://github.com/achakravarti/typster/blob/master/LICENSE
+[Free Software Foundation]:https://www.fsf.org
+[GNU General Public License]:https://choosealicense.com/licenses/gpl-3.0
+[issue tracker]:https://github.com/achakravarti/sol/issues
+[version 3]:https://www.gnu.org/licenses/gpl-3.0.en.html
 
