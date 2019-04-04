@@ -22,6 +22,22 @@ with this Game; if not, contact the maintainer of this Game, Abhishek
 Chakravarti, at <<abhishek@taranjali.org>>.
 
 
+## Overview
+
+
+This is the first game that I'm building, after a couple of decades of failed
+attempts at getting around to start doing so. I was looking for a simple game
+idea to start with that would help me get my toes wet with game development in
+general and SDL specifically. I initially thought of writing a Hangman clone,
+but this idea progressed to Typster.
+
+The basic premise of Typster is simple -- you need to type out the words being
+thrown down to you by the Typster (typo trickster) before they crash down into
+the city wall you are defending. If you type out the word incorrectly, or fail
+to complete typing the word before it reaches the wall, the wall is damaged a
+bit. You lose the game when the wall is completely broken down.
+
+
 * * *
 
 
