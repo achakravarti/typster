@@ -1,0 +1,2 @@
+# typster
+The Typster Game
