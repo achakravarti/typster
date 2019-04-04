@@ -17,6 +17,16 @@ WARRANTY; without even the implied warranty of MERCHANTIBILITY or FITNESS FOR A
 PARTICULAR PURPOSE. See the [GNU General Public License][] for more details.
 
 You should have received a [copy][] of the [GNU General Public License][] along
-with this Library; if not, contact the custodian of this Library, [Abhishek
+with this Game; if not, contact the maintainer of this Library, [Abhishek
 Chakravarti][], at <abhishek@taranjali.org>.
+
+
+* * *
+
+
+[Abhishek Chakravarti]:https://github.com/achakravarti
+[GNU General Public License]:https://choosealicense.com/licenses/gpl-3.0
+[Free Software Foundation]:https://www.fsf.org
+[version 3]:https://www.gnu.org/licenses/gpl-3.0.en.html
+[copy]:https://github.com/achakravarti/typster/blob/master/LICENSE
 
