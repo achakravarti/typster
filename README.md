@@ -23,6 +23,7 @@ Chakravarti, at <<abhishek@taranjali.org>>.
 
 
 ## Overview
+[![GitHub release](https://img.shields.io/github/release/achakravarti/typster.svg)](https://img.shields.io/github/release/achakravarti/typster) [![GitHub release date](https://img.shields.io/github/release-date/achakravarti/typster.svg)](https://img.shields.io/github/release-date/achakravarti/typster)  
 
 
 This is the first game that I'm building, after a couple of decades of failed
