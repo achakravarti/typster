@@ -58,6 +58,21 @@ int typster_video_ctor(typster_video *video)
 }
 
 
+        /* clears the screen */
+void typster_video_clear(typster_video *video)
+{
+        SDL_SetRenderDrawColor(video->renderer, 96, 128, 255, 255);
+        SDL_RenderClear(video->renderer);
+}
+
+
+        /* renders the screen */
+void typster_video_render(typster_video *video)
+{
+        SDL_RenderPresent(video->renderer);
+}
+
+
         /* handles the input for a frame */
 void input(void)
 {
@@ -65,23 +80,25 @@ void input(void)
 
 
         /* updates the state of a frame */
-void update(void)
+void update(typster_video *video)
 {
+        typster_video_clear(video);
 }
 
 
         /* renders a frame */
-void render(void)
+void render(typster_video *video)
 {
+        typster_video_render(video);
 }
 
 
 int main(int argc, char *argv[])
 {
-        auto typster_video video;
+        auto typster_video __video, *video = &__video;
 
                 /* initialise video device */
-        if (typster_video_ctor(&video)) {
+        if (typster_video_ctor(video)) {
                 printf("Failed to initialise video device\n");
                 return STATUS_ERROR;
         }
@@ -89,8 +106,8 @@ int main(int argc, char *argv[])
                 /* run game frame loop */
         while (1) {
                 input();
-                update();
-                render();
+                update(video);
+                render(video);
         }
 
         return STATUS_OK;
