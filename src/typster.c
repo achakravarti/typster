@@ -9,7 +9,7 @@
 
         /* video device */
 typedef struct __typster_video {
-        SDL_Renderer *renderer;
+        SDL_Renderer *screen;
         SDL_Window *window;
 } typster_video;
 
@@ -44,13 +44,13 @@ int typster_video_ctor(typster_video *video)
                 return STATUS_ERROR;
         }
 
-                /* create renderer */
+                /* create screen */
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-        video->renderer = SDL_CreateRenderer(video->window, -1, rflag);
+        video->screen = SDL_CreateRenderer(video->window, -1, rflag);
 
-                /* handle renderer creation exception */
-        if (!video->renderer) {
-                printf("Failed to create renderer: %s\n", SDL_GetError());
+                /* handle screen creation exception */
+        if (!video->screen) {
+                printf("Failed to create screen: %s\n", SDL_GetError());
                 return STATUS_ERROR;
         }
 
@@ -61,21 +61,31 @@ int typster_video_ctor(typster_video *video)
         /* clears the screen */
 void typster_video_clear(typster_video *video)
 {
-        SDL_SetRenderDrawColor(video->renderer, 96, 128, 255, 255);
-        SDL_RenderClear(video->renderer);
+        SDL_SetRenderDrawColor(video->screen, 96, 128, 255, 255);
+        SDL_RenderClear(video->screen);
 }
 
 
         /* renders the screen */
 void typster_video_render(typster_video *video)
 {
-        SDL_RenderPresent(video->renderer);
+        SDL_RenderPresent(video->screen);
 }
 
 
         /* handles the input for a frame */
 void input(void)
 {
+        SDL_Event event;
+
+        while (SDL_PollEvent(&event)) {
+                switch (event.type) {
+                case SDL_QUIT:
+                        exit(STATUS_OK);
+                        break;
+                default:
+                        break;
+                }
 }
 
 
