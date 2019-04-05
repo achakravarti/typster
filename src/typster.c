@@ -1,4 +1,11 @@
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
+
+
+        /* video device */
+typedef struct __typster_video {
+        SDL_Renderer *renderer;
+        SDL_Window *window;
+} typster_video;
 
 
         /* handles the input for a frame */
