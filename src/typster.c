@@ -58,6 +58,14 @@ int typster_video_ctor(typster_video *video)
 }
 
 
+void typster_video_dtor(typster_video *video)
+{
+        SDL_DestroyRenderer(video->screen);
+        SDL_DestroyWindow(video->window);
+        SDL_Quit();
+}
+
+
         /* clears the screen */
 void typster_video_clear(typster_video *video)
 {
@@ -74,18 +82,21 @@ void typster_video_render(typster_video *video)
 
 
         /* handles the input for a frame */
-void input(void)
+void input(typster_video *video)
 {
         SDL_Event event;
 
         while (SDL_PollEvent(&event)) {
                 switch (event.type) {
                 case SDL_QUIT:
+                        typster_video_dtor(video);
                         exit(STATUS_OK);
                         break;
+
                 default:
                         break;
                 }
+        }
 }
 
 
@@ -115,7 +126,7 @@ int main(int argc, char *argv[])
 
                 /* run game frame loop */
         while (1) {
-                input();
+                input(video);
                 update(video);
                 render(video);
         }
