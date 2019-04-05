@@ -29,7 +29,7 @@ Chakravarti, at <<abhishek@taranjali.org>>.
 This is the first game that I'm building, after a couple of decades of failed
 attempts at getting around to start doing so. I was looking for a simple game
 idea to start with that would help me get my toes wet with game development in
-general and SDL specifically. I initially thought of writing a Hangman clone,
+general and SDL in particular. I initially thought of writing a Hangman clone,
 but this idea progressed to Typster.
 
 The basic premise of Typster is simple -- you need to type out the words being
@@ -63,10 +63,33 @@ While every effort would be taken to address all support requests, please note
 that no guarantee is given that your support request would be resolved.
 
 
+
+## Contributing
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blue.svg)](http://makeapullrequest.com) [![GitHub contributors](https://img.shields.io/github/contributors/achakravarti/sol.svg)](https://github.com/achakravarti/sol/graphs/contributors/)
+
+The Typster game was written, and is currently maintained only by me, Abhishek
+Chakravarti.
+
+Although this is a personal hobby project aimed at helping me start exploring
+the world of game development, I'm always happy to discuss and accept the
+contributions of others.
+
+Contributions can take one of the following forms:  
+  * Development
+  * Documentation
+  * Reviews
+  * Testing
+
+If you are interested in contributing to Typster, a good starting point would be
+to read the [CONTRIBUTING.md][] file. This file provides guidelines on the code
+of of conduct, and on the development process and tools.
+
+
 * * *
 
 
 [Abhishek Chakravarti]:https://github.com/achakravarti
+[CONTRIBUTING.md]:https://github.com/achakravarti/sol/blob/master/CONTRIBUTING.md/
 [copy]:https://github.com/achakravarti/typster/blob/master/LICENSE
 [Free Software Foundation]:https://www.fsf.org
 [GNU General Public License]:https://choosealicense.com/licenses/gpl-3.0
