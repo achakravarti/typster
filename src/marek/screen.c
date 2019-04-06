@@ -71,7 +71,7 @@ int marek_screen_init(void)
         return 0;
 error:
         printf("SDL says: %s\n", SDL_GetError());
-        return -1;
+        return 1;
 }
 
 
@@ -105,7 +105,7 @@ int marek_screen_clear(void)
         return 0;
 error:
         printf("SDL says: %s\n", SDL_GetError());
-        return -1;
+        return 1;
 }
 
 
@@ -124,6 +124,6 @@ int marek_screen_render(void)
         return 0;
 error:
         printf("SDL says: %s\n", SDL_GetError());
-        return -1;
+        return 1;
 }
 
