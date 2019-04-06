@@ -1,3 +1,5 @@
+SRC := src/marek/screen.c src/typster.c
+
 all:
-	gcc -o typster src/typster.c -lSDL2 -lm
+	gcc -Wall -Wextra -o typster $(SRC) -lSDL2 -lm
 
