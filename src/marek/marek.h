@@ -112,6 +112,7 @@ extern sol_erno marek_game_run(void);
  * Interface: event
  */
 typedef enum MAREK_EVENT_CODE {
+        MAREK_EVENT_CODE_IGNORED = -1,
         MAREK_EVENT_CODE_NULL = 0,
         MAREK_EVENT_CODE_QUIT
 } MAREK_EVENT_CODE;
@@ -120,7 +121,7 @@ extern sol_erno marek_event_init(void);
 
 extern void marek_event_exit(void);
 
-extern sol_erno marek_event_query(SOL_EVENT_CODE *code);
+extern sol_erno marek_event_poll(MAREK_EVENT_CODE *code);
 
 
 

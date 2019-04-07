@@ -1,31 +1,42 @@
-#include <SDL2/SDL.h>
 #include "marek/marek.h"
 
 
 
 
         /* handles the input for a frame */
-sol_erno input(void)
+sol_erno frame_input(void)
 {
-        SDL_Event event;
+        auto MAREK_EVENT_CODE code;
 
-        while (SDL_PollEvent(&event)) {
-                switch (event.type) {
-                case SDL_QUIT:
+SOL_TRY:
+        sol_try (marek_event_poll(&code));
+
+        while (code) {
+                switch (code) {
+                case MAREK_EVENT_CODE_QUIT:
                         marek_game_exit();
                         break;
 
                 default:
                         break;
                 }
+
+                sol_try (marek_event_poll(&code));
         }
 
-        return SOL_ERNO_NULL;
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
+
 }
 
 
+
+
         /* updates the state of a frame */
-sol_erno update(void)
+sol_erno frame_update(void)
 {
         auto marek_shade *shade = SOL_PTR_NULL;
 
@@ -42,8 +53,10 @@ SOL_FINALLY:
 }
 
 
+
+
         /* renders a frame */
-sol_erno render(void)
+sol_erno frame_render(void)
 {
 SOL_TRY:
         sol_try (marek_screen_render());
@@ -56,6 +69,8 @@ SOL_FINALLY:
 }
 
 
+
+
 int main(int argc, char *argv[])
 {
 SOL_TRY:
@@ -63,7 +78,7 @@ SOL_TRY:
         (void) argc;
         (void) argv;
 
-        sol_try (marek_game_init(&input, &update, &render));
+        sol_try (marek_game_init(&frame_input, &frame_update, &frame_render));
         sol_try (marek_game_run());
 
 SOL_CATCH:
