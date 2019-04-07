@@ -93,15 +93,25 @@ void marek_screen_exit(void)
 
 
 
-int marek_screen_clear(void)
+int marek_screen_clear(const marek_shade *shade)
 {
         auto struct screen *instance;
+        auto unsigned alpha, red, green, blue;
+
+        if (!shade) {
+                goto error;
+        }
 
         if (!(instance = screen_instance())) {
                 goto error;
         }
 
-        SDL_SetRenderDrawColor(instance->renderer, 96, 128, 255, 255);
+        (void) marek_shade_alpha(shade, &alpha);
+        (void) marek_shade_red(shade, &red);
+        (void) marek_shade_green(shade, &green);
+        (void) marek_shade_blue(shade, &blue);
+
+        SDL_SetRenderDrawColor(instance->renderer, alpha, red, green, blue);
         SDL_RenderClear(instance->renderer);
 
         return 0;

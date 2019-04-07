@@ -30,7 +30,11 @@ void input(void)
         /* updates the state of a frame */
 void update(void)
 {
-        (void) marek_screen_clear();
+        auto marek_shade *shade = NULL;
+
+        (void) marek_shade_spawn(&shade, 96, 128, 128, 256);
+        (void) marek_screen_clear(shade);
+        marek_shade_kill(&shade);
 }
 
 

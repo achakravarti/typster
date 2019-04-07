@@ -59,7 +59,7 @@ extern int marek_shade_setblue(marek_shade *shade, unsigned blue);
  *
  *      void marek_screen_init(void);
  *      void marek_screen_exit(void);
- *      void marek_screen_clear(void);
+ *      void marek_screen_clear(const marek_shade *shade);
  *      void marek_screen_render(void);
  *
  * Description:
@@ -73,7 +73,7 @@ extern int marek_screen_init(void);
 
 extern void marek_screen_exit(void);
 
-extern int marek_screen_clear(void);
+extern int marek_screen_clear(const marek_shade *shade);
 
 extern int marek_screen_render(void);
 
