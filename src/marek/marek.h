@@ -92,5 +92,21 @@ extern sol_erno marek_screen_render(void);
 
 
 
+/*
+ * Interface: game
+ */
+typedef sol_erno (marek_game_delegate)(void);
+
+extern sol_erno marek_game_init(marek_game_delegate *input,
+                                marek_game_delegate *update,
+                                marek_game_delegate *render);
+
+extern void marek_game_exit(void);
+
+extern sol_erno marek_game_run(void);
+
+
+
+
 #endif /* __MAREK_SCREEN */
 
