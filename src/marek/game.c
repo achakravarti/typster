@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <stdlib.h>
 #include "marek.h"
 
 
@@ -50,7 +51,10 @@ extern void marek_game_exit(void)
 {
         if (sol_likely (game_inst)) {
                 SDL_Quit();
+                marek_screen_exit();
+
                 sol_ptr_free((sol_ptr **) &game_inst);
+                exit(SOL_ERNO_NULL);
         }
 }
 

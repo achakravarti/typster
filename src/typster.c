@@ -1,70 +1,76 @@
 #include <SDL2/SDL.h>
-#include <stdio.h>
 #include "marek/marek.h"
 
 
-        /* status codes */
-#define STATUS_OK 0
-#define STATUS_ERROR 1
 
 
         /* handles the input for a frame */
-void input(void)
+sol_erno input(void)
 {
         SDL_Event event;
 
         while (SDL_PollEvent(&event)) {
                 switch (event.type) {
                 case SDL_QUIT:
-                        marek_screen_exit();
-                        exit(STATUS_OK);
+                        marek_game_exit();
                         break;
 
                 default:
                         break;
                 }
         }
+
+        return SOL_ERNO_NULL;
 }
 
 
         /* updates the state of a frame */
-void update(void)
+sol_erno update(void)
 {
-        auto marek_shade *shade = NULL;
+        auto marek_shade *shade = SOL_PTR_NULL;
 
-        (void) marek_shade_spawn(&shade, 96, 128, 128, 256);
-        (void) marek_screen_clear(shade);
+SOL_TRY:
+        sol_try (marek_shade_spawn(&shade, 96, 128, 128, 256));
+        sol_try (marek_screen_clear(shade));
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
         marek_shade_kill(&shade);
+        return sol_erno_get();
 }
 
 
         /* renders a frame */
-void render(void)
+sol_erno render(void)
 {
-        (void) marek_screen_render();
+SOL_TRY:
+        sol_try (marek_screen_render());
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 
 int main(int argc, char *argv[])
 {
+SOL_TRY:
                 /* cast arguments to void as we don't use them */
         (void) argc;
         (void) argv;
 
-                /* initialise screen */
-        if (marek_screen_init()) {
-                goto error;
-        }
+        sol_try (marek_game_init(&input, &update, &render));
+        sol_try (marek_game_run());
 
-                /* run game frame loop */
-        while (1) {
-                input();
-                update();
-                render();
-        }
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
 
-        return STATUS_OK;
-error:
-        return STATUS_ERROR;
+SOL_FINALLY:
+        marek_game_exit();
+        return (int) sol_erno_get();
 }
 

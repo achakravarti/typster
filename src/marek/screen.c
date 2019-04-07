@@ -19,25 +19,6 @@ static sol_tls struct screen *screen_inst = SOL_PTR_NULL;
 
 
 
-struct screen *screen_instance(void)
-{
-/*        static struct screen *instance = NULL;
-
-        if (!instance) {
-                if ((instance = malloc(sizeof (*instance)))) {
-                        instance->renderer = NULL;
-                        instance->window = NULL;
-                }
-
-        }
-
-        return instance;*/
-        return screen_inst;
-}
-
-
-
-
 extern sol_erno marek_screen_init(void)
 {
         const int wflag = 0;
@@ -46,7 +27,7 @@ extern sol_erno marek_screen_init(void)
         const int height = 720;
 
 SOL_TRY:
-        sol_assert (SDL_Init(SDL_INIT_VIDEO) >= 0, SOL_ERNO_STATE);
+        sol_assert (!screen_inst, SOL_ERNO_STATE);
 
         sol_try (sol_ptr_new((sol_ptr **) &screen_inst, sizeof (*screen_inst)));
 
@@ -81,7 +62,6 @@ extern void marek_screen_exit(void)
         if (sol_likely (screen_inst)) {
                 SDL_DestroyRenderer(screen_inst->renderer);
                 SDL_DestroyWindow(screen_inst->window);
-                SDL_Quit();
 
                 sol_ptr_free((sol_ptr **) &screen_inst);
         }
