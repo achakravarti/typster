@@ -1,4 +1,4 @@
-#include "marek/marek.h"
+#include "merak/merak.h"
 
 
 
@@ -6,24 +6,24 @@
         /* handles the input for a frame */
 sol_erno frame_input(void)
 {
-        auto MAREK_EVENT_CODE code;
+        auto MERAK_EVENT_CODE code;
 
 SOL_TRY:
-        sol_try (marek_event_poll(&code));
+        sol_try (merak_event_poll(&code));
 
         while (code) {
                 switch (code) {
-                case MAREK_EVENT_CODE_QUIT:
-                        marek_screen_exit();
-                        marek_event_exit();
-                        marek_game_exit();
+                case MERAK_EVENT_CODE_QUIT:
+                        merak_screen_exit();
+                        merak_event_exit();
+                        merak_game_exit();
                         break;
 
                 default:
                         break;
                 }
 
-                sol_try (marek_event_poll(&code));
+                sol_try (merak_event_poll(&code));
         }
 
 SOL_CATCH:
@@ -40,17 +40,17 @@ SOL_FINALLY:
         /* updates the state of a frame */
 sol_erno frame_update(void)
 {
-        auto marek_shade *shade = SOL_PTR_NULL;
+        auto merak_shade *shade = SOL_PTR_NULL;
 
 SOL_TRY:
-        sol_try (marek_shade_spawn(&shade, 96, 128, 128, 256));
-        sol_try (marek_screen_clear(shade));
+        sol_try (merak_shade_spawn(&shade, 96, 128, 128, 256));
+        sol_try (merak_screen_clear(shade));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
-        marek_shade_kill(&shade);
+        merak_shade_kill(&shade);
         return sol_erno_get();
 }
 
@@ -61,7 +61,7 @@ SOL_FINALLY:
 sol_erno frame_render(void)
 {
 SOL_TRY:
-        sol_try (marek_screen_render());
+        sol_try (merak_screen_render());
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -75,30 +75,30 @@ SOL_FINALLY:
 
 int main(int argc, char *argv[])
 {
-        auto marek_area *res = SOL_PTR_NULL;
+        auto merak_area *res = SOL_PTR_NULL;
 
 SOL_TRY:
                 /* cast arguments to void as we don't use them */
         (void) argc;
         (void) argv;
 
-        sol_try (marek_area_spawn(&res, 1280, 720));
+        sol_try (merak_area_spawn(&res, 1280, 720));
 
-        sol_try (marek_game_init(&frame_input, &frame_update, &frame_render));
-        sol_try (marek_screen_init("Typster", res, SOL_BOOL_TRUE));
-        sol_try (marek_event_init());
+        sol_try (merak_game_init(&frame_input, &frame_update, &frame_render));
+        sol_try (merak_screen_init("Typster", res, SOL_BOOL_TRUE));
+        sol_try (merak_event_init());
 
-        sol_try (marek_game_run());
+        sol_try (merak_game_run());
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
-        marek_area_kill(&res);
+        merak_area_kill(&res);
 
-        marek_screen_exit();
-        marek_event_exit();
-        marek_game_exit();
+        merak_screen_exit();
+        merak_event_exit();
+        merak_game_exit();
 
         return (int) sol_erno_get();
 }

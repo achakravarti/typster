@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "marek.h"
+#include "merak.h"
 
 
 
@@ -19,8 +19,8 @@ static sol_tls struct screen *screen_inst = SOL_PTR_NULL;
 
 
 
-extern sol_erno marek_screen_init(const char *title,
-                                  const marek_area *res,
+extern sol_erno merak_screen_init(const char *title,
+                                  const merak_area *res,
                                   SOL_BOOL full)
 {
         const int wflag = full ? SDL_WINDOW_FULLSCREEN : 0;
@@ -33,8 +33,8 @@ SOL_TRY:
 
         sol_try (sol_ptr_new((sol_ptr **) &screen_inst, sizeof (*screen_inst)));
 
-        sol_try (marek_area_width(res, &width));
-        sol_try (marek_area_height(res, &height));
+        sol_try (merak_area_width(res, &width));
+        sol_try (merak_area_height(res, &height));
         screen_inst->window = SDL_CreateWindow(title,
                                                SDL_WINDOWPOS_CENTERED,
                                                SDL_WINDOWPOS_CENTERED,
@@ -61,7 +61,7 @@ SOL_FINALLY:
 
 
 
-extern void marek_screen_exit(void)
+extern void merak_screen_exit(void)
 {
         if (sol_likely (screen_inst)) {
                 SDL_DestroyRenderer(screen_inst->renderer);
@@ -74,7 +74,7 @@ extern void marek_screen_exit(void)
 
 
 
-extern sol_erno marek_screen_clear(const marek_shade *shade)
+extern sol_erno merak_screen_clear(const merak_shade *shade)
 {
         auto sol_word alpha, red, green, blue;
 
@@ -82,10 +82,10 @@ SOL_TRY:
         sol_assert (shade, SOL_ERNO_PTR);
         sol_assert (screen_inst, SOL_ERNO_STATE);
 
-        sol_try (marek_shade_alpha(shade, &alpha));
-        sol_try (marek_shade_red(shade, &red));
-        sol_try (marek_shade_green(shade, &green));
-        sol_try (marek_shade_blue(shade, &blue));
+        sol_try (merak_shade_alpha(shade, &alpha));
+        sol_try (merak_shade_red(shade, &red));
+        sol_try (merak_shade_green(shade, &green));
+        sol_try (merak_shade_blue(shade, &blue));
 
         SDL_SetRenderDrawColor(screen_inst->renderer, alpha, red, green, blue);
         SDL_RenderClear(screen_inst->renderer);
@@ -102,7 +102,7 @@ SOL_FINALLY:
 
 
 
-extern sol_erno marek_screen_render(void)
+extern sol_erno merak_screen_render(void)
 {
 SOL_TRY:
         sol_assert (screen_inst, SOL_ERNO_STATE);

@@ -1,5 +1,5 @@
-SRC := src/marek/shade.c src/marek/screen.c src/marek/game.c \
-       src/marek/area.c src/marek/event.c src/typster.c
+SRC := src/merak/shade.c src/merak/screen.c src/merak/game.c \
+       src/merak/area.c src/merak/event.c src/typster.c
 INC := -I "../"
 LIB := ../sol/bld/bin/libsol.so
 

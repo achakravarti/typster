@@ -1,9 +1,9 @@
-#include "marek.h"
+#include "merak.h"
 
 
 
 
-struct __marek_shade {
+struct __merak_shade {
         sol_w8 alpha;
         sol_w8 red;
         sol_w8 green;
@@ -13,22 +13,22 @@ struct __marek_shade {
 
 
 
-extern sol_word marek_shade_spawn(marek_shade **shade,
+extern sol_word merak_shade_spawn(merak_shade **shade,
                                   sol_word alpha,
                                   sol_word red,
                                   sol_word green,
                                   sol_word blue)
 {
-        auto marek_shade *ctx;
+        auto merak_shade *ctx;
 
 SOL_TRY:
         sol_try (sol_ptr_new((sol_ptr **) shade, sizeof (**shade)));
         ctx = *shade;
 
-        sol_try (marek_shade_setalpha(ctx, alpha));
-        sol_try (marek_shade_setred(ctx, red));
-        sol_try (marek_shade_setgreen(ctx, green));
-        sol_try (marek_shade_setblue(ctx, blue));
+        sol_try (merak_shade_setalpha(ctx, alpha));
+        sol_try (merak_shade_setred(ctx, red));
+        sol_try (merak_shade_setgreen(ctx, green));
+        sol_try (merak_shade_setblue(ctx, blue));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -40,7 +40,7 @@ SOL_FINALLY:
 
 
 
-extern void marek_shade_kill(marek_shade **shade)
+extern void merak_shade_kill(merak_shade **shade)
 {
         sol_ptr_free((sol_ptr **) shade);
 }
@@ -48,7 +48,7 @@ extern void marek_shade_kill(marek_shade **shade)
 
 
 
-extern sol_erno marek_shade_alpha(const marek_shade *shade, sol_word *alpha)
+extern sol_erno merak_shade_alpha(const merak_shade *shade, sol_word *alpha)
 {
 SOL_TRY:
         sol_assert (shade && alpha, SOL_ERNO_PTR);
@@ -65,7 +65,7 @@ SOL_FINALLY:
 
 
 
-extern sol_erno marek_shade_red(const marek_shade *shade, sol_word *red)
+extern sol_erno merak_shade_red(const merak_shade *shade, sol_word *red)
 {
 SOL_TRY:
         sol_assert (shade && red, SOL_ERNO_PTR);
@@ -82,7 +82,7 @@ SOL_FINALLY:
 
 
 
-extern sol_erno marek_shade_green(const marek_shade *shade, sol_word *green)
+extern sol_erno merak_shade_green(const merak_shade *shade, sol_word *green)
 {
 SOL_TRY:
         sol_assert (shade && green, SOL_ERNO_PTR);
@@ -99,7 +99,7 @@ SOL_FINALLY:
 
 
 
-extern sol_erno marek_shade_blue(const marek_shade *shade, sol_word *blue)
+extern sol_erno merak_shade_blue(const merak_shade *shade, sol_word *blue)
 {
 SOL_TRY:
         sol_assert (shade && blue, SOL_ERNO_PTR);
@@ -116,7 +116,7 @@ SOL_FINALLY:
 
 
 
-extern sol_erno marek_shade_setalpha(marek_shade *shade, sol_word alpha)
+extern sol_erno merak_shade_setalpha(merak_shade *shade, sol_word alpha)
 {
 SOL_TRY:
         sol_assert (shade, SOL_ERNO_PTR);
@@ -133,7 +133,7 @@ SOL_FINALLY:
 
 
 
-extern sol_erno marek_shade_setred(marek_shade *shade, sol_word red)
+extern sol_erno merak_shade_setred(merak_shade *shade, sol_word red)
 {
 SOL_TRY:
         sol_assert (shade, SOL_ERNO_PTR);
@@ -150,7 +150,7 @@ SOL_FINALLY:
 
 
 
-extern sol_erno marek_shade_setgreen(marek_shade *shade, sol_word green)
+extern sol_erno merak_shade_setgreen(merak_shade *shade, sol_word green)
 {
 SOL_TRY:
         sol_assert (shade, SOL_ERNO_PTR);
@@ -167,7 +167,7 @@ SOL_FINALLY:
 
 
 
-extern sol_erno marek_shade_setblue(marek_shade *shade, sol_word blue)
+extern sol_erno merak_shade_setblue(merak_shade *shade, sol_word blue)
 {
 SOL_TRY:
         sol_assert (shade, SOL_ERNO_PTR);

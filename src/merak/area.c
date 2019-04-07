@@ -1,9 +1,9 @@
-#include "marek.h"
+#include "merak.h"
 
 
 
 
-struct __marek_area {
+struct __merak_area {
         sol_u16 width;
         sol_u16 height;
 };
@@ -11,11 +11,11 @@ struct __marek_area {
 
 
 
-extern sol_erno marek_area_spawn(marek_area **area,
+extern sol_erno merak_area_spawn(merak_area **area,
                                  sol_uint width,
                                  sol_uint height)
 {
-        auto marek_area *ctx;
+        auto merak_area *ctx;
 
 SOL_TRY:
         sol_assert (width <= SOL_U16_MAX && height <= SOL_U16_MAX,
@@ -37,7 +37,7 @@ SOL_FINALLY:
 
 
 
-extern void marek_area_kill(marek_area **area)
+extern void merak_area_kill(merak_area **area)
 {
         sol_ptr_free((sol_ptr **) area);
 }
@@ -45,7 +45,7 @@ extern void marek_area_kill(marek_area **area)
 
 
 
-extern sol_erno marek_area_width(const marek_area *area, sol_uint *width)
+extern sol_erno merak_area_width(const merak_area *area, sol_uint *width)
 {
 SOL_TRY:
         sol_assert (area && width, SOL_ERNO_PTR);
@@ -62,7 +62,7 @@ SOL_FINALLY:
 
 
 
-extern sol_erno marek_area_height(const marek_area *area, sol_uint *height)
+extern sol_erno merak_area_height(const merak_area *area, sol_uint *height)
 {
 SOL_TRY:
         sol_assert (area && height, SOL_ERNO_PTR);
@@ -79,7 +79,7 @@ SOL_FINALLY:
 
 
 
-extern sol_erno marek_area_setwidth(marek_area *area, sol_uint width)
+extern sol_erno merak_area_setwidth(merak_area *area, sol_uint width)
 {
 SOL_TRY:
         sol_assert (area, SOL_ERNO_PTR);
@@ -97,7 +97,7 @@ SOL_FINALLY:
 
 
 
-extern sol_erno marek_area_setheight(marek_area *area, sol_uint height)
+extern sol_erno merak_area_setheight(merak_area *area, sol_uint height)
 {
 SOL_TRY:
         sol_assert (area, SOL_ERNO_PTR);

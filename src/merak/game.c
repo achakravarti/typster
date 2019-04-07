@@ -1,14 +1,14 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
-#include "marek.h"
+#include "merak.h"
 
 
 
 
 struct game {
-        marek_game_delegate *input;
-        marek_game_delegate *update;
-        marek_game_delegate *render;
+        merak_game_delegate *input;
+        merak_game_delegate *update;
+        merak_game_delegate *render;
 };
 
 
@@ -19,9 +19,9 @@ static sol_tls struct game *game_inst = SOL_PTR_NULL;
 
 
 
-extern sol_erno marek_game_init(marek_game_delegate *input,
-                                marek_game_delegate *update,
-                                marek_game_delegate *render)
+extern sol_erno merak_game_init(merak_game_delegate *input,
+                                merak_game_delegate *update,
+                                merak_game_delegate *render)
 {
 SOL_TRY:
         sol_assert (input && update && render, SOL_ERNO_PTR);
@@ -46,7 +46,7 @@ SOL_FINALLY:
 
 
 
-extern void marek_game_exit(void)
+extern void merak_game_exit(void)
 {
         if (sol_likely (game_inst)) {
                 sol_ptr_free((sol_ptr **) &game_inst);
@@ -58,7 +58,7 @@ extern void marek_game_exit(void)
 
 
 
-extern sol_erno marek_game_run(void)
+extern sol_erno merak_game_run(void)
 {
 SOL_TRY:
         sol_assert (game_inst, SOL_ERNO_STATE);

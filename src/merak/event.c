@@ -1,10 +1,10 @@
 #include <SDL2/SDL.h>
-#include "marek.h"
+#include "merak.h"
 
 
 
 
-extern sol_erno marek_event_init(void)
+extern sol_erno merak_event_init(void)
 {
         return SOL_ERNO_NULL;
 }
@@ -12,14 +12,14 @@ extern sol_erno marek_event_init(void)
 
 
 
-extern void marek_event_exit(void)
+extern void merak_event_exit(void)
 {
 }
 
 
 
 
-extern sol_erno marek_event_poll(MAREK_EVENT_CODE *code)
+extern sol_erno merak_event_poll(MERAK_EVENT_CODE *code)
 {
         auto SDL_Event event;
         auto sol_int more;
@@ -29,16 +29,16 @@ extern sol_erno marek_event_poll(MAREK_EVENT_CODE *code)
         if (sol_likely (more)) {
                 switch (event.type) {
                 case SDL_QUIT:
-                        *code = MAREK_EVENT_CODE_QUIT;
+                        *code = MERAK_EVENT_CODE_QUIT;
                         break;
 
                 default:
-                        *code = MAREK_EVENT_CODE_IGNORED;
+                        *code = MERAK_EVENT_CODE_IGNORED;
                         break;
                 }
         }
         else {
-                *code = MAREK_EVENT_CODE_NULL;
+                *code = MERAK_EVENT_CODE_NULL;
         }
 
         return SOL_ERNO_NULL;
