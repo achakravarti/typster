@@ -1,5 +1,5 @@
 SRC := src/marek/shade.c src/marek/screen.c src/marek/game.c \
-       src/marek/event.c src/typster.c
+       src/marek/area.c src/marek/event.c src/typster.c
 INC := -I "../"
 LIB := ../sol/bld/bin/libsol.so
 

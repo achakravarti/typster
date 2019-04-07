@@ -64,6 +64,29 @@ extern sol_erno marek_shade_setblue(marek_shade *shade, sol_word blue);
 
 
 /*
+ * Interface: area
+ */
+
+typedef struct __marek_area marek_area;
+
+extern sol_erno marek_area_spawn(marek_area **area,
+                                 sol_uint width,
+                                 sol_uint height);
+
+extern void marek_area_kill(marek_area **area);
+
+extern sol_erno marek_area_width(const marek_area *area, sol_uint *width);
+
+extern sol_erno marek_area_height(const marek_area *area, sol_uint *height);
+
+extern sol_erno marek_area_setwidth(marek_area *area, sol_uint width);
+
+extern sol_erno marek_area_setheight(marek_area *area, sol_uint height);
+
+
+
+
+/*
  * Interface: screen
  *
  * Synopsis:
@@ -81,7 +104,9 @@ extern sol_erno marek_shade_setblue(marek_shade *shade, sol_word blue);
  *      marek_screen_render() renders the screen
  */
 
-extern sol_erno marek_screen_init(void);
+extern sol_erno marek_screen_init(const char *title,
+                                  const marek_area *res,
+                                  SOL_BOOL full);
 
 extern void marek_screen_exit(void);
 

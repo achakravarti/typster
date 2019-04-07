@@ -75,13 +75,17 @@ SOL_FINALLY:
 
 int main(int argc, char *argv[])
 {
+        auto marek_area *res = SOL_PTR_NULL;
+
 SOL_TRY:
                 /* cast arguments to void as we don't use them */
         (void) argc;
         (void) argv;
 
+        sol_try (marek_area_spawn(&res, 1280, 720));
+
         sol_try (marek_game_init(&frame_input, &frame_update, &frame_render));
-        sol_try (marek_screen_init());
+        sol_try (marek_screen_init("Typster", res, SOL_BOOL_TRUE));
         sol_try (marek_event_init());
 
         sol_try (marek_game_run());
@@ -90,6 +94,8 @@ SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
+        marek_area_kill(&res);
+
         marek_screen_exit();
         marek_event_exit();
         marek_game_exit();

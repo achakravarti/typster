@@ -19,21 +19,25 @@ static sol_tls struct screen *screen_inst = SOL_PTR_NULL;
 
 
 
-extern sol_erno marek_screen_init(void)
+extern sol_erno marek_screen_init(const char *title,
+                                  const marek_area *res,
+                                  SOL_BOOL full)
 {
-        const int wflag = 0;
-        const int rflag = SDL_RENDERER_ACCELERATED;
-        const int width = 1280;
-        const int height = 720;
+        const int wflag = full ? SDL_WINDOW_FULLSCREEN : 0;
+        auto sol_uint width, height;
 
 SOL_TRY:
+        sol_assert (title && *title, SOL_ERNO_STR);
+        sol_assert (res, SOL_ERNO_PTR);
         sol_assert (!screen_inst, SOL_ERNO_STATE);
 
         sol_try (sol_ptr_new((sol_ptr **) &screen_inst, sizeof (*screen_inst)));
 
-        screen_inst->window = SDL_CreateWindow("Typster",
-                                               SDL_WINDOWPOS_UNDEFINED,
-                                               SDL_WINDOWPOS_UNDEFINED,
+        sol_try (marek_area_width(res, &width));
+        sol_try (marek_area_height(res, &height));
+        screen_inst->window = SDL_CreateWindow(title,
+                                               SDL_WINDOWPOS_CENTERED,
+                                               SDL_WINDOWPOS_CENTERED,
                                                width,
                                                height,
                                                wflag);
@@ -42,7 +46,7 @@ SOL_TRY:
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
         screen_inst->renderer = SDL_CreateRenderer(screen_inst->window,
                                                    -1,
-                                                   rflag);
+                                                   SDL_RENDERER_ACCELERATED);
         sol_assert (screen_inst->renderer, SOL_ERNO_STATE);
 
 SOL_CATCH:
