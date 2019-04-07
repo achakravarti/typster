@@ -81,13 +81,13 @@ extern sol_erno marek_shade_setblue(marek_shade *shade, sol_word blue);
  *      marek_screen_render() renders the screen
  */
 
-extern int marek_screen_init(void);
+extern sol_erno marek_screen_init(void);
 
 extern void marek_screen_exit(void);
 
-extern int marek_screen_clear(const marek_shade *shade);
+extern sol_erno marek_screen_clear(const marek_shade *shade);
 
-extern int marek_screen_render(void);
+extern sol_erno marek_screen_render(void);
 
 
 
