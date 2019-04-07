@@ -14,9 +14,14 @@ struct screen {
 
 
 
+static sol_tls struct screen *screen_inst = SOL_PTR_NULL;
+
+
+
+
 struct screen *screen_instance(void)
 {
-        static struct screen *instance = NULL;
+/*        static struct screen *instance = NULL;
 
         if (!instance) {
                 if ((instance = malloc(sizeof (*instance)))) {
@@ -26,7 +31,8 @@ struct screen *screen_instance(void)
 
         }
 
-        return instance;
+        return instance;*/
+        return screen_inst;
 }
 
 
@@ -38,23 +44,25 @@ extern sol_erno marek_screen_init(void)
         const int rflag = SDL_RENDERER_ACCELERATED;
         const int width = 1280;
         const int height = 720;
-        auto struct screen *instance;
 
 SOL_TRY:
         sol_assert (SDL_Init(SDL_INIT_VIDEO) >= 0, SOL_ERNO_STATE);
 
-        sol_assert ((instance = screen_instance()), SOL_ERNO_STATE);
-        instance->window = SDL_CreateWindow("Typster",
-                                            SDL_WINDOWPOS_UNDEFINED,
-                                            SDL_WINDOWPOS_UNDEFINED,
-                                            width,
-                                            height,
-                                            wflag);
-        sol_assert (instance->window, SOL_ERNO_STATE);
+        sol_try (sol_ptr_new((sol_ptr **) &screen_inst, sizeof (*screen_inst)));
+
+        screen_inst->window = SDL_CreateWindow("Typster",
+                                               SDL_WINDOWPOS_UNDEFINED,
+                                               SDL_WINDOWPOS_UNDEFINED,
+                                               width,
+                                               height,
+                                               wflag);
+        sol_assert (screen_inst->window, SOL_ERNO_STATE);
 
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-        instance->renderer = SDL_CreateRenderer(instance->window, -1, rflag);
-        sol_assert (instance->renderer, SOL_ERNO_STATE);
+        screen_inst->renderer = SDL_CreateRenderer(screen_inst->window,
+                                                   -1,
+                                                   rflag);
+        sol_assert (screen_inst->renderer, SOL_ERNO_STATE);
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -70,14 +78,12 @@ SOL_FINALLY:
 
 extern void marek_screen_exit(void)
 {
-        auto struct screen *instance;
-
-        if ((instance = screen_instance())) {
-                SDL_DestroyRenderer(instance->renderer);
-                SDL_DestroyWindow(instance->window);
+        if (sol_likely (screen_inst)) {
+                SDL_DestroyRenderer(screen_inst->renderer);
+                SDL_DestroyWindow(screen_inst->window);
                 SDL_Quit();
 
-                sol_ptr_free((sol_ptr **) &instance);
+                sol_ptr_free((sol_ptr **) &screen_inst);
         }
 }
 
@@ -86,20 +92,19 @@ extern void marek_screen_exit(void)
 
 extern sol_erno marek_screen_clear(const marek_shade *shade)
 {
-        auto struct screen *instance;
         auto sol_word alpha, red, green, blue;
 
 SOL_TRY:
         sol_assert (shade, SOL_ERNO_PTR);
+        sol_assert (screen_inst, SOL_ERNO_STATE);
 
         sol_try (marek_shade_alpha(shade, &alpha));
         sol_try (marek_shade_red(shade, &red));
         sol_try (marek_shade_green(shade, &green));
         sol_try (marek_shade_blue(shade, &blue));
 
-        sol_assert ((instance = screen_instance()), SOL_ERNO_STATE);
-        SDL_SetRenderDrawColor(instance->renderer, alpha, red, green, blue);
-        SDL_RenderClear(instance->renderer);
+        SDL_SetRenderDrawColor(screen_inst->renderer, alpha, red, green, blue);
+        SDL_RenderClear(screen_inst->renderer);
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -115,11 +120,9 @@ SOL_FINALLY:
 
 extern sol_erno marek_screen_render(void)
 {
-        auto struct screen *instance;
-
 SOL_TRY:
-        sol_assert ((instance = screen_instance()), SOL_ERNO_STATE);
-        SDL_RenderPresent(instance->renderer);
+        sol_assert (screen_inst, SOL_ERNO_STATE);
+        SDL_RenderPresent(screen_inst->renderer);
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
