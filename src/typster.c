@@ -14,6 +14,8 @@ SOL_TRY:
         while (code) {
                 switch (code) {
                 case MAREK_EVENT_CODE_QUIT:
+                        marek_screen_exit();
+                        marek_event_exit();
                         marek_game_exit();
                         break;
 
@@ -79,13 +81,19 @@ SOL_TRY:
         (void) argv;
 
         sol_try (marek_game_init(&frame_input, &frame_update, &frame_render));
+        sol_try (marek_screen_init());
+        sol_try (marek_event_init());
+
         sol_try (marek_game_run());
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
+        marek_screen_exit();
+        marek_event_exit();
         marek_game_exit();
+
         return (int) sol_erno_get();
 }
 

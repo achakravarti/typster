@@ -33,8 +33,6 @@ SOL_TRY:
         game_inst->render = render;
 
         sol_assert (SDL_Init(SDL_INIT_EVERYTHING) >= 0, SOL_ERNO_STATE);
-        sol_try (marek_screen_init());
-        sol_try (marek_event_init());
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -51,11 +49,8 @@ SOL_FINALLY:
 extern void marek_game_exit(void)
 {
         if (sol_likely (game_inst)) {
-                SDL_Quit();
-                marek_screen_exit();
-                marek_event_exit();
-
                 sol_ptr_free((sol_ptr **) &game_inst);
+                SDL_Quit();
                 exit(SOL_ERNO_NULL);
         }
 }
