@@ -85,6 +85,8 @@ void marek_screen_exit(void)
                 SDL_DestroyRenderer(instance->renderer);
                 SDL_DestroyWindow(instance->window);
                 SDL_Quit();
+
+                free(instance);
         }
 }
 

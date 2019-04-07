@@ -22,17 +22,15 @@
  *      marek_shade_setblue() sets blue channel
  */
 
-typedef struct marek_shade marek_shade;
+typedef struct __marek_shade marek_shade;
 
-extern int marek_shade_spawn(
-        marek_shade **shade,
-        unsigned alpha,
-        unsigned red,
-        unsigned green,
-        unsigned blue
-);
+extern int marek_shade_spawn(marek_shade **shade,
+                             unsigned alpha,
+                             unsigned red,
+                             unsigned green,
+                             unsigned blue);
 
-extern int marek_shade_kill(marek_shade **shade);
+extern void marek_shade_kill(marek_shade **shade);
 
 extern int marek_shade_alpha(const marek_shade *shade, unsigned *alpha);
 
