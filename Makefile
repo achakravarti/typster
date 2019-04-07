@@ -1,4 +1,4 @@
-SRC := src/marek/shade.c src/marek/screen.c src/typster.c
+SRC := src/marek/shade.c src/marek/screen.c src/marek/game.c src/typster.c
 INC := -I "../"
 LIB := ../sol/bld/bin/libsol.so
 
