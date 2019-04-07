@@ -96,7 +96,7 @@ void marek_screen_exit(void)
 int marek_screen_clear(const marek_shade *shade)
 {
         auto struct screen *instance;
-        auto unsigned alpha, red, green, blue;
+        auto sol_word alpha, red, green, blue;
 
         if (!shade) {
                 goto error;

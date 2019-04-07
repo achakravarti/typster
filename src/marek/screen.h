@@ -4,6 +4,18 @@
 
 
 
+#include "sol/inc/env.h"
+#include "sol/inc/error.h"
+#include "sol/inc/hint.h"
+#include "sol/inc/libc.h"
+#include "sol/inc/log.h"
+#include "sol/inc/prim.h"
+#include "sol/inc/ptr.h"
+#include "sol/inc/test.h"
+
+
+
+
 /*
  * Interface: shade
  *
@@ -24,29 +36,29 @@
 
 typedef struct __marek_shade marek_shade;
 
-extern int marek_shade_spawn(marek_shade **shade,
-                             unsigned alpha,
-                             unsigned red,
-                             unsigned green,
-                             unsigned blue);
+extern sol_erno marek_shade_spawn(marek_shade **shade,
+                                  sol_word alpha,
+                                  sol_word red,
+                                  sol_word green,
+                                  sol_word blue);
 
 extern void marek_shade_kill(marek_shade **shade);
 
-extern int marek_shade_alpha(const marek_shade *shade, unsigned *alpha);
+extern sol_erno marek_shade_alpha(const marek_shade *shade, sol_word *alpha);
 
-extern int marek_shade_red(const marek_shade *shade, unsigned *red);
+extern sol_erno marek_shade_red(const marek_shade *shade, sol_word *red);
 
-extern int marek_shade_green(const marek_shade *shade, unsigned *green);
+extern sol_erno marek_shade_green(const marek_shade *shade, sol_word *green);
 
-extern int marek_shade_blue(const marek_shade *shade, unsigned *blue);
+extern sol_erno marek_shade_blue(const marek_shade *shade, sol_word *blue);
 
-extern int marek_shade_setalpha(marek_shade *shade, unsigned alpha);
+extern sol_erno marek_shade_setalpha(marek_shade *shade, sol_word alpha);
 
-extern int marek_shade_setred(marek_shade *shade, unsigned red);
+extern sol_erno marek_shade_setred(marek_shade *shade, sol_word red);
 
-extern int marek_shade_setgreen(marek_shade *shade, unsigned green);
+extern sol_erno marek_shade_setgreen(marek_shade *shade, sol_word green);
 
-extern int marek_shade_setblue(marek_shade *shade, unsigned blue);
+extern sol_erno marek_shade_setblue(marek_shade *shade, sol_word blue);
 
 
 

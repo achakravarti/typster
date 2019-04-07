@@ -5,40 +5,37 @@
 
 
 struct __marek_shade {
-        unsigned char alpha;
-        unsigned char red;
-        unsigned char green;
-        unsigned char blue;
+        sol_w8 alpha;
+        sol_w8 red;
+        sol_w8 green;
+        sol_w8 blue;
 };
 
 
 
 
-extern int marek_shade_spawn(marek_shade **shade,
-                             unsigned alpha,
-                             unsigned red,
-                             unsigned green,
-                             unsigned blue)
+extern sol_word marek_shade_spawn(marek_shade **shade,
+                                  sol_word alpha,
+                                  sol_word red,
+                                  sol_word green,
+                                  sol_word blue)
 {
         auto marek_shade *ctx;
 
-        if (!shade || *shade) {
-                goto error;
-        }
-
-        if (!(*shade = malloc(sizeof (**shade)))) {
-                goto error;
-        }
-
+SOL_TRY:
+        sol_try (sol_ptr_new((sol_ptr **) shade, sizeof (**shade)));
         ctx = *shade;
-        marek_shade_setalpha(ctx, alpha);
-        marek_shade_setred(ctx, red);
-        marek_shade_setgreen(ctx, green);
-        marek_shade_setblue(ctx, blue);
 
-        return 0;
-error:
-        return 1;
+        sol_try (marek_shade_setalpha(ctx, alpha));
+        sol_try (marek_shade_setred(ctx, red));
+        sol_try (marek_shade_setgreen(ctx, green));
+        sol_try (marek_shade_setblue(ctx, blue));
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 
@@ -46,137 +43,142 @@ error:
 
 extern void marek_shade_kill(marek_shade **shade)
 {
-        if (shade && *shade) {
-                free(*shade);
-                *shade = NULL;
-        }
+        sol_ptr_free((sol_ptr **) shade);
 }
 
 
 
 
-extern int marek_shade_alpha(const marek_shade *shade, unsigned *alpha)
+extern sol_erno marek_shade_alpha(const marek_shade *shade, sol_word *alpha)
 {
-        if (!(shade && alpha)) {
-                goto error;
-        }
+SOL_TRY:
+        sol_assert (shade && alpha, SOL_ERNO_PTR);
 
-        *alpha = shade->alpha;
+        *alpha = (sol_word) shade->alpha;
 
-        return 0;
-error:
-        return 1;
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 
 
 
-extern int marek_shade_red(const marek_shade *shade, unsigned *red)
+extern sol_erno marek_shade_red(const marek_shade *shade, sol_word *red)
 {
-        if (!(shade && red)) {
-                goto error;
-        }
+SOL_TRY:
+        sol_assert (shade && red, SOL_ERNO_PTR);
 
-        *red = shade->red;
+        *red = (sol_word) shade->red;
 
-        return 0;
-error:
-        return 1;
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 
 
 
-extern int marek_shade_green(const marek_shade *shade, unsigned *green)
+extern sol_erno marek_shade_green(const marek_shade *shade, sol_word *green)
 {
-        if (!(shade && green)) {
-                goto error;
-        }
+SOL_TRY:
+        sol_assert (shade && green, SOL_ERNO_PTR);
 
-        *green= shade->green;
+        *green = (sol_word) shade->green;
 
-        return 0;
-error:
-        return 1;
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 
 
 
-extern int marek_shade_blue(const marek_shade *shade, unsigned *blue)
+extern sol_erno marek_shade_blue(const marek_shade *shade, sol_word *blue)
 {
-        if (!(shade && blue)) {
-                goto error;
-        }
+SOL_TRY:
+        sol_assert (shade && blue, SOL_ERNO_PTR);
 
-        *blue = shade->blue;
+        *blue = (sol_word) shade->blue;
 
-        return 0;
-error:
-        return 1;
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 
 
 
-extern int marek_shade_setalpha(marek_shade *shade, unsigned alpha)
+extern sol_erno marek_shade_setalpha(marek_shade *shade, sol_word alpha)
 {
-        if (!shade) {
-                goto error;
-        }
+SOL_TRY:
+        sol_assert (shade, SOL_ERNO_PTR);
 
-        shade->alpha = alpha;
+        shade->alpha = (sol_w8) alpha;
 
-        return 0;
-error:
-        return 1;
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 
 
 
-extern int marek_shade_setred(marek_shade *shade, unsigned red)
+extern sol_erno marek_shade_setred(marek_shade *shade, sol_word red)
 {
-        if (!shade) {
-                goto error;
-        }
+SOL_TRY:
+        sol_assert (shade, SOL_ERNO_PTR);
 
-        shade->red = red;
+        shade->red = (sol_w8) red;
 
-        return 0;
-error:
-        return 1;
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 
 
 
-extern int marek_shade_setgreen(marek_shade *shade, unsigned green)
+extern sol_erno marek_shade_setgreen(marek_shade *shade, sol_word green)
 {
-        if (!shade) {
-                goto error;
-        }
+SOL_TRY:
+        sol_assert (shade, SOL_ERNO_PTR);
 
-        shade->green = green;
+        shade->green = (sol_w8) green;
 
-        return 0;
-error:
-        return 1;
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 
 
 
-extern int marek_shade_setblue(marek_shade *shade, unsigned blue)
+extern sol_erno marek_shade_setblue(marek_shade *shade, sol_word blue)
 {
-        if (!shade ) {
-                goto error;
-        }
+SOL_TRY:
+        sol_assert (shade, SOL_ERNO_PTR);
 
-        shade->blue = blue;
+        shade->blue = (sol_w8) blue;
 
-        return 0;
-error:
-        return 1;
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
