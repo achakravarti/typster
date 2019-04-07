@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "screen.h"
+#include "marek.h"
 
 
 

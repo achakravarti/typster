@@ -1,6 +1,6 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
-#include "marek/screen.h"
+#include "marek/marek.h"
 
 
         /* status codes */

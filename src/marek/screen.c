@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "screen.h"
+#include "marek.h"
 
 
 
