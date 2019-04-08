@@ -4,14 +4,14 @@
 
 
 
-#include "sol/inc/env.h"
-#include "sol/inc/error.h"
-#include "sol/inc/hint.h"
-#include "sol/inc/libc.h"
-#include "sol/inc/log.h"
-#include "sol/inc/prim.h"
-#include "sol/inc/ptr.h"
-#include "sol/inc/test.h"
+#include "../../../sol/inc/env.h"
+#include "../../../sol/inc/error.h"
+#include "../../../sol/inc/hint.h"
+#include "../../../sol/inc/libc.h"
+#include "../../../sol/inc/log.h"
+#include "../../../sol/inc/prim.h"
+#include "../../../sol/inc/ptr.h"
+#include "../../../sol/inc/test.h"
 
 
 
@@ -34,31 +34,24 @@
  *      merak_shade_setblue() sets blue channel
  */
 
-typedef struct __merak_shade merak_shade;
+typedef struct __merak_shade {
+        sol_u8 red;
+        sol_u8 green;
+        sol_u8 blue;
+        sol_u8 alpha;
+} merak_shade;
 
-extern sol_erno merak_shade_spawn(merak_shade **shade,
-                                  sol_word alpha,
-                                  sol_word red,
-                                  sol_word green,
-                                  sol_word blue);
 
-extern void merak_shade_kill(merak_shade **shade);
 
-extern sol_erno merak_shade_alpha(const merak_shade *shade, sol_word *alpha);
 
-extern sol_erno merak_shade_red(const merak_shade *shade, sol_word *red);
+/*
+ * Interface: point
+ */
 
-extern sol_erno merak_shade_green(const merak_shade *shade, sol_word *green);
-
-extern sol_erno merak_shade_blue(const merak_shade *shade, sol_word *blue);
-
-extern sol_erno merak_shade_setalpha(merak_shade *shade, sol_word alpha);
-
-extern sol_erno merak_shade_setred(merak_shade *shade, sol_word red);
-
-extern sol_erno merak_shade_setgreen(merak_shade *shade, sol_word green);
-
-extern sol_erno merak_shade_setblue(merak_shade *shade, sol_word blue);
+typedef struct __merak_point {
+        sol_u16 x;
+        sol_u16 y;
+} merak_point;
 
 
 
@@ -67,21 +60,10 @@ extern sol_erno merak_shade_setblue(merak_shade *shade, sol_word blue);
  * Interface: area
  */
 
-typedef struct __merak_area merak_area;
-
-extern sol_erno merak_area_spawn(merak_area **area,
-                                 sol_uint width,
-                                 sol_uint height);
-
-extern void merak_area_kill(merak_area **area);
-
-extern sol_erno merak_area_width(const merak_area *area, sol_uint *width);
-
-extern sol_erno merak_area_height(const merak_area *area, sol_uint *height);
-
-extern sol_erno merak_area_setwidth(merak_area *area, sol_uint width);
-
-extern sol_erno merak_area_setheight(merak_area *area, sol_uint height);
+typedef struct __merak_area {
+        sol_u16 width;
+        sol_u16 height;
+} merak_area;
 
 
 
@@ -110,6 +92,8 @@ extern sol_erno merak_screen_init(const char *title,
 
 extern void merak_screen_exit(void);
 
+extern sol_erno merak_screen_brush(sol_ptr **brush);
+
 extern sol_erno merak_screen_clear(const merak_shade *shade);
 
 extern sol_erno merak_screen_render(void);
@@ -136,7 +120,7 @@ extern sol_erno merak_game_run(void);
 /*
  * Interface: event
  */
-typedef enum MERAK_EVENT_CODE {
+typedef enum __MERAK_EVENT_CODE {
         MERAK_EVENT_CODE_IGNORED = -1,
         MERAK_EVENT_CODE_NULL = 0,
         MERAK_EVENT_CODE_QUIT
@@ -147,6 +131,49 @@ extern sol_erno merak_event_init(void);
 extern void merak_event_exit(void);
 
 extern sol_erno merak_event_poll(MERAK_EVENT_CODE *code);
+
+
+
+
+/*
+ * Interface: texture
+ */
+
+typedef struct __merak_texture merak_texture;
+
+typedef struct __merak_sprite merak_sprite;
+
+extern sol_erno merak_texture_new(merak_texture **tex, const char *fpath);
+
+extern void merak_texture_free(merak_texture **tex);
+
+extern sol_erno merak_texture_area(const merak_texture *tex, merak_area *area);
+
+extern sol_erno merak_texture_render(const merak_texture *tex,
+                                     const merak_point *loc);
+
+extern sol_erno merak_texture_draw(const merak_texture *tex,
+                                   const merak_point *src,
+                                   const merak_area *clip,
+                                   const merak_point *dst);
+
+extern sol_erno merak_sprite_new(merak_sprite **sprite,
+                                 const char *fpath,
+                                 sol_size nrow,
+                                 sol_size ncol);
+
+extern void merak_sprite_free(merak_sprite **sprite);
+
+extern sol_erno merak_sprite_area(const merak_sprite *sprite,
+                                  merak_area *area);
+
+extern sol_erno merak_sprite_nframe(const merak_sprite *sprite,
+                                    sol_size *nframe);
+
+extern sol_erno merak_sprite_draw(const merak_sprite *sprite,
+                                  sol_index row,
+                                  sol_index col,
+                                  const merak_point *loc);
 
 
 

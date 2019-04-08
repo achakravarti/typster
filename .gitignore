@@ -28,13 +28,14 @@
 *.so.*
 *.dylib
 
-# Executables
+# Build artefacts
 *.exe
 *.out
 *.app
 *.i*86
 *.x86_64
 *.hex
+*.log
 typster
 
 # Debug files

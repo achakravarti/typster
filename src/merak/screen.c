@@ -1,6 +1,4 @@
 #include <SDL2/SDL.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "merak.h"
 
 
@@ -24,7 +22,7 @@ extern sol_erno merak_screen_init(const char *title,
                                   SOL_BOOL full)
 {
         const int wflag = full ? SDL_WINDOW_FULLSCREEN : 0;
-        auto sol_uint width, height;
+        //auto sol_uint width, height;
 
 SOL_TRY:
         sol_assert (title && *title, SOL_ERNO_STR);
@@ -33,13 +31,13 @@ SOL_TRY:
 
         sol_try (sol_ptr_new((sol_ptr **) &screen_inst, sizeof (*screen_inst)));
 
-        sol_try (merak_area_width(res, &width));
-        sol_try (merak_area_height(res, &height));
+        //sol_try (merak_area_width(res, &width));
+        //sol_try (merak_area_height(res, &height));
         screen_inst->window = SDL_CreateWindow(title,
                                                SDL_WINDOWPOS_CENTERED,
                                                SDL_WINDOWPOS_CENTERED,
-                                               width,
-                                               height,
+                                               res->width,
+                                               res->height,
                                                wflag);
         sol_assert (screen_inst->window, SOL_ERNO_STATE);
 
@@ -74,20 +72,37 @@ extern void merak_screen_exit(void)
 
 
 
+extern sol_erno merak_screen_brush(sol_ptr **brush)
+{
+SOL_TRY:
+        sol_assert (screen_inst, SOL_ERNO_STATE);
+
+        (void) brush;
+        *brush = (sol_ptr *) screen_inst->renderer;
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+        sol_log_trace("Querying SDL for errors...");
+        sol_log_error(SDL_GetError());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
 extern sol_erno merak_screen_clear(const merak_shade *shade)
 {
-        auto sol_word alpha, red, green, blue;
-
 SOL_TRY:
         sol_assert (shade, SOL_ERNO_PTR);
         sol_assert (screen_inst, SOL_ERNO_STATE);
 
-        sol_try (merak_shade_alpha(shade, &alpha));
-        sol_try (merak_shade_red(shade, &red));
-        sol_try (merak_shade_green(shade, &green));
-        sol_try (merak_shade_blue(shade, &blue));
-
-        SDL_SetRenderDrawColor(screen_inst->renderer, alpha, red, green, blue);
+        SDL_SetRenderDrawColor(screen_inst->renderer,
+                               shade->alpha,
+                               shade->red,
+                               shade->green,
+                               shade->blue);
         SDL_RenderClear(screen_inst->renderer);
 
 SOL_CATCH:
