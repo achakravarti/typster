@@ -11,9 +11,9 @@ struct __merak_point {
 
 
 
-extern sol_erno merak_point_spawn(merak_point **point,
-                                 sol_uint x,
-                                 sol_uint y)
+extern sol_erno merak_point_new(merak_point **point,
+                                sol_uint x,
+                                sol_uint y)
 {
         auto merak_point *ctx;
 
@@ -37,7 +37,7 @@ SOL_FINALLY:
 
 
 
-extern void merak_point_kill(merak_point **point)
+extern void merak_point_free(merak_point **point)
 {
         sol_ptr_free((sol_ptr **) point);
 }
