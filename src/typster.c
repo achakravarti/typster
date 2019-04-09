@@ -43,14 +43,14 @@ sol_erno frame_update(void)
         auto merak_shade *shade = SOL_PTR_NULL;
 
 SOL_TRY:
-        sol_try (merak_shade_spawn(&shade, 96, 128, 128, 256));
+        sol_try (merak_shade_new(&shade, 96, 128, 128, 256));
         sol_try (merak_screen_clear(shade));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
-        merak_shade_kill(&shade);
+        merak_shade_free(&shade);
         return sol_erno_get();
 }
 

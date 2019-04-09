@@ -36,13 +36,13 @@
 
 typedef struct __merak_shade merak_shade;
 
-extern sol_erno merak_shade_spawn(merak_shade **shade,
-                                  sol_word alpha,
-                                  sol_word red,
-                                  sol_word green,
-                                  sol_word blue);
+extern sol_erno merak_shade_new(merak_shade **shade,
+                                sol_word alpha,
+                                sol_word red,
+                                sol_word green,
+                                sol_word blue);
 
-extern void merak_shade_kill(merak_shade **shade);
+extern void merak_shade_free(merak_shade **shade);
 
 extern sol_erno merak_shade_alpha(const merak_shade *shade, sol_word *alpha);
 
