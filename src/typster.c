@@ -82,7 +82,7 @@ SOL_TRY:
         (void) argc;
         (void) argv;
 
-        sol_try (merak_area_spawn(&res, 1280, 720));
+        sol_try (merak_area_new(&res, 1280, 720));
 
         sol_try (merak_game_init(&frame_input, &frame_update, &frame_render));
         sol_try (merak_screen_init("Typster", res, SOL_BOOL_TRUE));
@@ -94,7 +94,7 @@ SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
-        merak_area_kill(&res);
+        merak_area_free(&res);
 
         merak_screen_exit();
         merak_event_exit();

@@ -36,7 +36,7 @@ SOL_TRY:
         }
 
         SDL_QueryTexture(ctx->tex, SOL_PTR_NULL, SOL_PTR_NULL, &width, &height);
-        sol_try (merak_area_spawn(&ctx->area, width, height));
+        sol_try (merak_area_new(&ctx->area, width, height));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -65,7 +65,7 @@ extern void merak_texture_free(merak_texture **tex)
                         SDL_DestroyTexture(ctx->tex);
                 }
 
-                merak_area_kill(&ctx->area);
+                merak_area_free(&ctx->area);
         }
 
         sol_ptr_free((sol_ptr **) tex);

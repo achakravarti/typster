@@ -91,11 +91,11 @@ extern sol_erno merak_point_sety(merak_point *point, sol_uint y);
 
 typedef struct __merak_area merak_area;
 
-extern sol_erno merak_area_spawn(merak_area **area,
-                                 sol_uint width,
-                                 sol_uint height);
+extern sol_erno merak_area_new(merak_area **area,
+                               sol_uint width,
+                               sol_uint height);
 
-extern void merak_area_kill(merak_area **area);
+extern void merak_area_free(merak_area **area);
 
 extern sol_erno merak_area_width(const merak_area *area, sol_uint *width);
 
