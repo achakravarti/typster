@@ -132,6 +132,8 @@ extern sol_erno merak_screen_init(const char *title,
 
 extern void merak_screen_exit(void);
 
+extern sol_erno merak_screen_brush(sol_ptr *brush);
+
 extern sol_erno merak_screen_clear(const merak_shade *shade);
 
 extern sol_erno merak_screen_render(void);
@@ -158,7 +160,7 @@ extern sol_erno merak_game_run(void);
 /*
  * Interface: event
  */
-typedef enum MERAK_EVENT_CODE {
+typedef enum __MERAK_EVENT_CODE {
         MERAK_EVENT_CODE_IGNORED = -1,
         MERAK_EVENT_CODE_NULL = 0,
         MERAK_EVENT_CODE_QUIT
@@ -169,6 +171,30 @@ extern sol_erno merak_event_init(void);
 extern void merak_event_exit(void);
 
 extern sol_erno merak_event_poll(MERAK_EVENT_CODE *code);
+
+
+
+
+/*
+ * Interface: texture
+ */
+
+typedef enum __MERAK_TEXTURE_MIME {
+        MERAK_TEXTURE_MIME_BMP = 0,
+} MERAK_TEXTURE_MIME;
+
+typedef struct __merak_texture merak_texture;
+
+extern sol_erno merak_texture_spawn(merak_texture **tex,
+                                    const char *fpath,
+                                    MERAK_TEXTURE_MIME ftype);
+
+extern void merak_texture_kill(merak_texture **tex);
+
+extern sol_erno merak_texture_area(const merak_texture *tex, merak_area **area);
+
+extern sol_erno merak_texture_render(const merak_texture *tex,
+                                     const merak_point *loc);
 
 
 

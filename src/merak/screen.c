@@ -1,6 +1,4 @@
 #include <SDL2/SDL.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "merak.h"
 
 
@@ -69,6 +67,26 @@ extern void merak_screen_exit(void)
 
                 sol_ptr_free((sol_ptr **) &screen_inst);
         }
+}
+
+
+
+
+extern sol_erno merak_screen_brush(sol_ptr *brush)
+{
+SOL_TRY:
+        sol_assert (screen_inst, SOL_ERNO_STATE);
+
+        (void) brush;
+        brush = (sol_ptr *) screen_inst->renderer;
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+        sol_log_trace("Querying SDL for errors...");
+        sol_log_error(SDL_GetError());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 
