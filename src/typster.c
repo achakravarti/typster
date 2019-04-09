@@ -41,16 +41,27 @@ SOL_FINALLY:
 sol_erno frame_update(void)
 {
         auto merak_shade *shade = SOL_PTR_NULL;
+        auto merak_texture *dragon = SOL_PTR_NULL;
+        auto merak_point *loc = SOL_PTR_NULL;
 
 SOL_TRY:
         sol_try (merak_shade_new(&shade, 96, 128, 128, 256));
         sol_try (merak_screen_clear(shade));
+
+        sol_try (merak_texture_new(&dragon,
+                                   "../res/dragon.bmp",
+                                   MERAK_TEXTURE_MIME_BMP));
+        sol_try (merak_point_new(&loc, 100, 150));
+        sol_try (merak_texture_render(dragon, loc));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
         merak_shade_free(&shade);
+        merak_point_free(&loc);
+        merak_texture_free(&dragon);
+
         return sol_erno_get();
 }
 
@@ -82,6 +93,7 @@ SOL_TRY:
         (void) argc;
         (void) argv;
 
+        sol_try (sol_log_open("typster.log"));
         sol_try (merak_area_new(&res, 1280, 720));
 
         sol_try (merak_game_init(&frame_input, &frame_update, &frame_render));
@@ -94,6 +106,7 @@ SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
+        sol_log_close();
         merak_area_free(&res);
 
         merak_screen_exit();

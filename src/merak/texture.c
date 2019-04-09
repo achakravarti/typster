@@ -30,7 +30,7 @@ SOL_TRY:
         ctx->area = SOL_PTR_NULL;
 
         if (ftype == MERAK_TEXTURE_MIME_BMP) {
-                sol_try (merak_screen_brush((sol_ptr *) brush));
+                sol_try (merak_screen_brush((sol_ptr **) &brush));
                 surf = SDL_LoadBMP(fpath);
                 ctx->tex = SDL_CreateTextureFromSurface(brush, surf);
         }
@@ -110,7 +110,7 @@ SOL_TRY:
         dst.w = src.w;
         dst.h = src.h;
 
-        sol_try (merak_screen_brush((sol_ptr *) brush));
+        sol_try (merak_screen_brush((sol_ptr **) &brush));
         SDL_RenderCopy(brush, tex->tex, &src, &dst);
 
 SOL_CATCH:

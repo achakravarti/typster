@@ -72,13 +72,13 @@ extern void merak_screen_exit(void)
 
 
 
-extern sol_erno merak_screen_brush(sol_ptr *brush)
+extern sol_erno merak_screen_brush(sol_ptr **brush)
 {
 SOL_TRY:
         sol_assert (screen_inst, SOL_ERNO_STATE);
 
         (void) brush;
-        brush = (sol_ptr *) screen_inst->renderer;
+        *brush = (sol_ptr *) screen_inst->renderer;
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());

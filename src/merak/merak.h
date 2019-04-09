@@ -132,7 +132,7 @@ extern sol_erno merak_screen_init(const char *title,
 
 extern void merak_screen_exit(void);
 
-extern sol_erno merak_screen_brush(sol_ptr *brush);
+extern sol_erno merak_screen_brush(sol_ptr **brush);
 
 extern sol_erno merak_screen_clear(const merak_shade *shade);
 
@@ -185,11 +185,11 @@ typedef enum __MERAK_TEXTURE_MIME {
 
 typedef struct __merak_texture merak_texture;
 
-extern sol_erno merak_texture_spawn(merak_texture **tex,
-                                    const char *fpath,
-                                    MERAK_TEXTURE_MIME ftype);
+extern sol_erno merak_texture_new(merak_texture **tex,
+                                  const char *fpath,
+                                  MERAK_TEXTURE_MIME ftype);
 
-extern void merak_texture_kill(merak_texture **tex);
+extern void merak_texture_free(merak_texture **tex);
 
 extern sol_erno merak_texture_area(const merak_texture *tex, merak_area **area);
 
