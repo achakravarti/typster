@@ -75,6 +75,8 @@ extern sol_erno merak_texture_area(const merak_texture *tex,
 SOL_TRY:
         sol_assert (tex && area, SOL_ERNO_PTR);
 
+        sol_try (merak_area_new(area, tex->rect.w, tex->rect.h));
+
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
         sol_log_trace("Querying SDL for errors...");
@@ -91,7 +93,6 @@ extern sol_erno merak_texture_render(const merak_texture *tex,
                                      const merak_point *loc)
 {
         auto SDL_Renderer *brush = SOL_PTR_NULL;
-        //auto SDL_Rect src, dst;
         auto SDL_Rect dst;
 
 SOL_TRY:
