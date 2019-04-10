@@ -49,7 +49,7 @@ SOL_TRY:
         sol_try (merak_screen_clear(shade));
 
         sol_try (merak_texture_new(&dragon,
-                                   "../res/dragon.bmp",
+                                   "/home/abhishek/src/open/typster/res/dragon.bmp",
                                    MERAK_TEXTURE_MIME_BMP));
         sol_try (merak_point_new(&loc, 100, 150));
         sol_try (merak_texture_render(dragon, loc));
