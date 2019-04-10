@@ -38,6 +38,7 @@ SOL_CATCH:
         sol_log_erno(sol_erno_get());
         sol_log_trace("Querying SDL for errors...");
         sol_log_error(SDL_GetError());
+        sol_log_error(IMG_GetError());
 
 SOL_FINALLY:
         return sol_erno_get();
@@ -83,21 +84,63 @@ SOL_FINALLY:
 
 
 extern sol_erno merak_texture_render(const merak_texture *tex,
-                                     const merak_point *loc)
+                                     const merak_point *dst)
 {
         auto SDL_Renderer *brush = SOL_PTR_NULL;
-        auto SDL_Rect dst;
+        auto SDL_Rect rdst;
 
 SOL_TRY:
         sol_assert (tex, SOL_ERNO_PTR);
 
-        sol_try (merak_point_x(loc, (sol_uint *) &dst.x));
-        sol_try (merak_point_y(loc, (sol_uint *) &dst.y));
-        dst.w = tex->rect.w;
-        dst.h = tex->rect.h;
+        sol_try (merak_point_x(dst, (sol_uint *) &rdst.x));
+        sol_try (merak_point_y(dst, (sol_uint *) &rdst.y));
+        rdst.w = tex->rect.w;
+        rdst.h = tex->rect.h;
 
         sol_try (merak_screen_brush((sol_ptr **) &brush));
-        SDL_RenderCopy(brush, tex->tex, SOL_PTR_NULL, &dst);
+        SDL_RenderCopy(brush, tex->tex, SOL_PTR_NULL, &rdst);
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+        sol_log_trace("Querying SDL for errors...");
+        sol_log_error(SDL_GetError());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
+extern sol_erno merak_texture_draw(const merak_texture *tex,
+                                   const merak_point *src,
+                                   const merak_area *clip,
+                                   const merak_point *dst)
+{
+        auto SDL_Renderer *brush = SOL_PTR_NULL;
+        auto SDL_Rect rsrc, rdst;
+
+SOL_TRY:
+        sol_assert (tex, SOL_ERNO_PTR);
+
+        sol_try (merak_point_x(src, (sol_uint *) &rsrc.x));
+        sol_try (merak_point_y(src, (sol_uint *) &rsrc.y));
+        sol_try (merak_area_width(clip, (sol_uint *) &rsrc.w));
+        sol_try (merak_area_height(clip, (sol_uint *) &rsrc.h));
+
+        sol_assert (rsrc.x <= tex->rect.w
+                    && rsrc.y <= tex->rect.h
+                    && rsrc.w <= tex->rect.w
+                    && rsrc.h <= tex->rect.h,
+                    SOL_ERNO_RANGE);
+
+        sol_try (merak_point_x(dst, (sol_uint *) &rdst.x));
+        sol_try (merak_point_y(dst, (sol_uint *) &rdst.y));
+        rdst.w = rsrc.w;
+        rdst.h = rsrc.h;
+
+        sol_try (merak_screen_brush((sol_ptr **) &brush));
+        SDL_RenderCopy(brush, tex->tex, &rsrc, &rdst);
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());

@@ -4,14 +4,14 @@
 
 
 
-#include "sol/inc/env.h"
-#include "sol/inc/error.h"
-#include "sol/inc/hint.h"
-#include "sol/inc/libc.h"
-#include "sol/inc/log.h"
-#include "sol/inc/prim.h"
-#include "sol/inc/ptr.h"
-#include "sol/inc/test.h"
+#include "../../../sol/inc/env.h"
+#include "../../../sol/inc/error.h"
+#include "../../../sol/inc/hint.h"
+#include "../../../sol/inc/libc.h"
+#include "../../../sol/inc/log.h"
+#include "../../../sol/inc/prim.h"
+#include "../../../sol/inc/ptr.h"
+#include "../../../sol/inc/test.h"
 
 
 
@@ -181,6 +181,8 @@ extern sol_erno merak_event_poll(MERAK_EVENT_CODE *code);
 
 typedef struct __merak_texture merak_texture;
 
+typedef struct __merak_sprite merak_sprite;
+
 extern sol_erno merak_texture_new(merak_texture **tex, const char *fpath);
 
 extern void merak_texture_free(merak_texture **tex);
@@ -189,6 +191,29 @@ extern sol_erno merak_texture_area(const merak_texture *tex, merak_area **area);
 
 extern sol_erno merak_texture_render(const merak_texture *tex,
                                      const merak_point *loc);
+
+extern sol_erno merak_texture_draw(const merak_texture *tex,
+                                   const merak_point *src,
+                                   const merak_area *clip,
+                                   const merak_point *dst);
+
+extern sol_erno merak_sprite_new(merak_sprite **sprite,
+                                 const char *fpath,
+                                 sol_size nrow,
+                                 sol_size ncol);
+
+extern void merak_sprite_free(merak_sprite **sprite);
+
+extern sol_erno merak_sprite_area(const merak_sprite *sprite,
+                                  merak_area **area);
+
+extern sol_erno merak_sprite_nframe(const merak_sprite *sprite,
+                                    sol_size *nframe);
+
+extern sol_erno merak_sprite_draw(const merak_sprite *sprite,
+                                  sol_index row,
+                                  sol_index col,
+                                  const merak_point *loc);
 
 
 

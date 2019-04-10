@@ -42,6 +42,7 @@ sol_erno frame_update(void)
 {
         auto merak_shade *shade = SOL_PTR_NULL;
         auto merak_texture *dragon = SOL_PTR_NULL;
+        auto merak_sprite *typster = SOL_PTR_NULL;
         auto merak_point *loc = SOL_PTR_NULL;
 
 SOL_TRY:
@@ -52,6 +53,12 @@ SOL_TRY:
         sol_try (merak_point_new(&loc, 100, 150));
         sol_try (merak_texture_render(dragon, loc));
 
+        sol_try (merak_sprite_new(&typster, "res/typster.png", 1, 4));
+        merak_point_free(&loc);
+        sol_try (merak_point_new(&loc, 400, 400));
+        sol_try (merak_sprite_draw(typster, 1, 3, loc));
+
+
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
@@ -59,6 +66,7 @@ SOL_FINALLY:
         merak_shade_free(&shade);
         merak_point_free(&loc);
         merak_texture_free(&dragon);
+        merak_sprite_free(&typster);
 
         return sol_erno_get();
 }
