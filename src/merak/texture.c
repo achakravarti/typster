@@ -16,7 +16,6 @@ struct __merak_texture {
 extern sol_erno merak_texture_new(merak_texture **tex, const char *fpath)
 {
         auto merak_texture *ctx = SOL_PTR_NULL;
-        auto SDL_Surface *surf = SOL_PTR_NULL;
         auto SDL_Renderer *brush = SOL_PTR_NULL;
 
 SOL_TRY:
@@ -25,10 +24,8 @@ SOL_TRY:
         sol_try (sol_ptr_new((sol_ptr **) tex, sizeof (**tex)));
         ctx = *tex;
 
-        surf = IMG_Load(fpath);
         sol_try (merak_screen_brush((sol_ptr **) &brush));
-        ctx->tex = SDL_CreateTextureFromSurface(brush, surf);
-        sol_assert (ctx->tex, SOL_ERNO_STATE);
+        sol_assert (ctx->tex = IMG_LoadTexture(brush, fpath), SOL_ERNO_STATE);
 
         ctx->rect.x = ctx->rect.y = 0;
         SDL_QueryTexture(ctx->tex,
@@ -43,10 +40,6 @@ SOL_CATCH:
         sol_log_error(SDL_GetError());
 
 SOL_FINALLY:
-        if (sol_likely (surf)) {
-                SDL_FreeSurface(surf);
-        }
-
         return sol_erno_get();
 }
 

@@ -48,7 +48,7 @@ SOL_TRY:
         sol_try (merak_shade_new(&shade, 96, 128, 128, 256));
         sol_try (merak_screen_clear(shade));
 
-        sol_try (merak_texture_new(&dragon, "res/dragon.png"));
+        sol_try (merak_texture_new(&dragon, "res/typster.png"));
         sol_try (merak_point_new(&loc, 100, 150));
         sol_try (merak_texture_render(dragon, loc));
 
