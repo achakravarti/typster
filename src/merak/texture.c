@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "merak.h"
 
 
@@ -12,9 +13,7 @@ struct __merak_texture {
 
 
 
-extern sol_erno merak_texture_new(merak_texture **tex,
-                                  const char *fpath,
-                                  MERAK_TEXTURE_MIME ftype)
+extern sol_erno merak_texture_new(merak_texture **tex, const char *fpath)
 {
         auto merak_texture *ctx = SOL_PTR_NULL;
         auto SDL_Surface *surf = SOL_PTR_NULL;
@@ -29,11 +28,9 @@ SOL_TRY:
         ctx->tex = SOL_PTR_NULL;
         ctx->area = SOL_PTR_NULL;
 
-        if (ftype == MERAK_TEXTURE_MIME_BMP) {
-                sol_try (merak_screen_brush((sol_ptr **) &brush));
-                surf = SDL_LoadBMP(fpath);
-                ctx->tex = SDL_CreateTextureFromSurface(brush, surf);
-        }
+        surf = IMG_Load(fpath);
+        sol_try (merak_screen_brush((sol_ptr **) &brush));
+        ctx->tex = SDL_CreateTextureFromSurface(brush, surf);
 
         SDL_QueryTexture(ctx->tex, SOL_PTR_NULL, SOL_PTR_NULL, &width, &height);
         sol_try (merak_area_new(&ctx->area, width, height));

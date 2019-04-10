@@ -179,15 +179,9 @@ extern sol_erno merak_event_poll(MERAK_EVENT_CODE *code);
  * Interface: texture
  */
 
-typedef enum __MERAK_TEXTURE_MIME {
-        MERAK_TEXTURE_MIME_BMP = 0,
-} MERAK_TEXTURE_MIME;
-
 typedef struct __merak_texture merak_texture;
 
-extern sol_erno merak_texture_new(merak_texture **tex,
-                                  const char *fpath,
-                                  MERAK_TEXTURE_MIME ftype);
+extern sol_erno merak_texture_new(merak_texture **tex, const char *fpath);
 
 extern void merak_texture_free(merak_texture **tex);
 

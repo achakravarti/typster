@@ -5,5 +5,5 @@ INC := -I "../"
 LIB := ../sol/bld/bin/libsol.so
 
 all:
-	gcc $(INC) -Wall -Wextra -o typster $(SRC) -lSDL2 -lm $(LIB)
+	gcc $(INC) -Wall -Wextra -o typster $(SRC) -lSDL2 -lSDL2_image -lm $(LIB)
 
