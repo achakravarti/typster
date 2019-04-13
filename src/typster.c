@@ -40,14 +40,17 @@ SOL_FINALLY:
         /* updates the state of a frame */
 sol_erno frame_update(void)
 {
-        auto merak_shade *shade = SOL_PTR_NULL;
         auto merak_texture *dragon = SOL_PTR_NULL;
         auto merak_sprite *typster = SOL_PTR_NULL;
         auto merak_point loc;
+        auto merak_shade shade;
 
 SOL_TRY:
-        sol_try (merak_shade_new(&shade, 96, 128, 128, 256));
-        sol_try (merak_screen_clear(shade));
+        shade.red = 128;
+        shade.green = 128;
+        shade.blue = 255;
+        shade.alpha = 96;
+        sol_try (merak_screen_clear(&shade));
 
         sol_try (merak_texture_new(&dragon, "res/typster.png"));
         loc.x = 100;
@@ -63,7 +66,6 @@ SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
-        merak_shade_free(&shade);
         merak_texture_free(&dragon);
         merak_sprite_free(&typster);
 

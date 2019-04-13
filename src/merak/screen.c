@@ -94,18 +94,15 @@ SOL_FINALLY:
 
 extern sol_erno merak_screen_clear(const merak_shade *shade)
 {
-        auto sol_word alpha, red, green, blue;
-
 SOL_TRY:
         sol_assert (shade, SOL_ERNO_PTR);
         sol_assert (screen_inst, SOL_ERNO_STATE);
 
-        sol_try (merak_shade_alpha(shade, &alpha));
-        sol_try (merak_shade_red(shade, &red));
-        sol_try (merak_shade_green(shade, &green));
-        sol_try (merak_shade_blue(shade, &blue));
-
-        SDL_SetRenderDrawColor(screen_inst->renderer, alpha, red, green, blue);
+        SDL_SetRenderDrawColor(screen_inst->renderer,
+                               shade->alpha,
+                               shade->red,
+                               shade->green,
+                               shade->blue);
         SDL_RenderClear(screen_inst->renderer);
 
 SOL_CATCH:

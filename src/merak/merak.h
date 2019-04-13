@@ -34,31 +34,12 @@
  *      merak_shade_setblue() sets blue channel
  */
 
-typedef struct __merak_shade merak_shade;
-
-extern sol_erno merak_shade_new(merak_shade **shade,
-                                sol_word alpha,
-                                sol_word red,
-                                sol_word green,
-                                sol_word blue);
-
-extern void merak_shade_free(merak_shade **shade);
-
-extern sol_erno merak_shade_alpha(const merak_shade *shade, sol_word *alpha);
-
-extern sol_erno merak_shade_red(const merak_shade *shade, sol_word *red);
-
-extern sol_erno merak_shade_green(const merak_shade *shade, sol_word *green);
-
-extern sol_erno merak_shade_blue(const merak_shade *shade, sol_word *blue);
-
-extern sol_erno merak_shade_setalpha(merak_shade *shade, sol_word alpha);
-
-extern sol_erno merak_shade_setred(merak_shade *shade, sol_word red);
-
-extern sol_erno merak_shade_setgreen(merak_shade *shade, sol_word green);
-
-extern sol_erno merak_shade_setblue(merak_shade *shade, sol_word blue);
+typedef struct __merak_shade {
+        sol_u8 red;
+        sol_u8 green;
+        sol_u8 blue;
+        sol_u8 alpha;
+} merak_shade;
 
 
 
