@@ -93,7 +93,7 @@ SOL_FINALLY:
 
 int main(int argc, char *argv[])
 {
-        auto merak_area *res = SOL_PTR_NULL;
+        auto merak_area res;
 
 SOL_TRY:
                 /* cast arguments to void as we don't use them */
@@ -101,10 +101,11 @@ SOL_TRY:
         (void) argv;
 
         sol_try (sol_log_open("typster.log"));
-        sol_try (merak_area_new(&res, 1280, 720));
+        res.width = 1280;
+        res.height = 720;
 
         sol_try (merak_game_init(&frame_input, &frame_update, &frame_render));
-        sol_try (merak_screen_init("Typster", res, SOL_BOOL_TRUE));
+        sol_try (merak_screen_init("Typster", &res, SOL_BOOL_TRUE));
         sol_try (merak_event_init());
 
         sol_try (merak_game_run());
@@ -114,7 +115,6 @@ SOL_CATCH:
 
 SOL_FINALLY:
         sol_log_close();
-        merak_area_free(&res);
 
         merak_screen_exit();
         merak_event_exit();

@@ -64,12 +64,13 @@ extern void merak_texture_free(merak_texture **tex)
 
 
 extern sol_erno merak_texture_area(const merak_texture *tex,
-                                   merak_area **area)
+                                   merak_area *area)
 {
 SOL_TRY:
         sol_assert (tex && area, SOL_ERNO_PTR);
 
-        sol_try (merak_area_new(area, tex->rect.w, tex->rect.h));
+        area->width = tex->rect.w;
+        area->height = tex->rect.h;
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -121,19 +122,17 @@ extern sol_erno merak_texture_draw(const merak_texture *tex,
         auto SDL_Rect rsrc, rdst;
 
 SOL_TRY:
-        sol_assert (tex && src && dst, SOL_ERNO_PTR);
+        sol_assert (tex && src && dst && clip, SOL_ERNO_PTR);
+        sol_assert (src->x <= tex->rect.w
+                    && src->y <= tex->rect.h
+                    && clip->width <= tex->rect.w
+                    && clip->height <= tex->rect.h,
+                    SOL_ERNO_RANGE);
 
         rsrc.x = src->x;
         rsrc.y = src->y;
-
-        sol_try (merak_area_width(clip, (sol_uint *) &rsrc.w));
-        sol_try (merak_area_height(clip, (sol_uint *) &rsrc.h));
-
-        sol_assert (rsrc.x <= tex->rect.w
-                    && rsrc.y <= tex->rect.h
-                    && rsrc.w <= tex->rect.w
-                    && rsrc.h <= tex->rect.h,
-                    SOL_ERNO_RANGE);
+        rsrc.w = clip->width;
+        rsrc.h = clip->height;
 
         rdst.x = dst->x;
         rdst.y = dst->y;

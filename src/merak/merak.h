@@ -60,21 +60,10 @@ typedef struct __merak_point {
  * Interface: area
  */
 
-typedef struct __merak_area merak_area;
-
-extern sol_erno merak_area_new(merak_area **area,
-                               sol_uint width,
-                               sol_uint height);
-
-extern void merak_area_free(merak_area **area);
-
-extern sol_erno merak_area_width(const merak_area *area, sol_uint *width);
-
-extern sol_erno merak_area_height(const merak_area *area, sol_uint *height);
-
-extern sol_erno merak_area_setwidth(merak_area *area, sol_uint width);
-
-extern sol_erno merak_area_setheight(merak_area *area, sol_uint height);
+typedef struct __merak_area {
+        sol_u16 width;
+        sol_u16 height;
+} merak_area;
 
 
 
@@ -158,7 +147,7 @@ extern sol_erno merak_texture_new(merak_texture **tex, const char *fpath);
 
 extern void merak_texture_free(merak_texture **tex);
 
-extern sol_erno merak_texture_area(const merak_texture *tex, merak_area **area);
+extern sol_erno merak_texture_area(const merak_texture *tex, merak_area *area);
 
 extern sol_erno merak_texture_render(const merak_texture *tex,
                                      const merak_point *loc);
@@ -176,7 +165,7 @@ extern sol_erno merak_sprite_new(merak_sprite **sprite,
 extern void merak_sprite_free(merak_sprite **sprite);
 
 extern sol_erno merak_sprite_area(const merak_sprite *sprite,
-                                  merak_area **area);
+                                  merak_area *area);
 
 extern sol_erno merak_sprite_nframe(const merak_sprite *sprite,
                                     sol_size *nframe);
