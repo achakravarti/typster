@@ -98,7 +98,7 @@ extern sol_erno merak_sprite_draw(const merak_sprite *sprite,
                                   const merak_point *dst)
 {
         auto merak_area *area = SOL_PTR_NULL, *clip = SOL_PTR_NULL;
-        auto merak_point *src = SOL_PTR_NULL;
+        auto merak_point src;
         auto sol_uint width, height;
 
 SOL_TRY:
@@ -113,8 +113,9 @@ SOL_TRY:
         height /= sprite->nrow;
         sol_try (merak_area_new(&clip, width, height));
 
-        sol_try (merak_point_new(&src, width * (col - 1), height * (row - 1)));
-        sol_try (merak_texture_draw(sprite->tex, src, clip, dst));
+        src.x = width * (col - 1);
+        src.y = height * (row - 1);
+        sol_try (merak_texture_draw(sprite->tex, &src, clip, dst));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -122,7 +123,6 @@ SOL_CATCH:
 SOL_FINALLY:
         merak_area_free(&area);
         merak_area_free(&clip);
-        merak_point_free(&src);
 
         return sol_erno_get();
 }

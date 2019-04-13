@@ -90,10 +90,10 @@ extern sol_erno merak_texture_render(const merak_texture *tex,
         auto SDL_Rect rdst;
 
 SOL_TRY:
-        sol_assert (tex, SOL_ERNO_PTR);
+        sol_assert (tex && dst, SOL_ERNO_PTR);
 
-        sol_try (merak_point_x(dst, (sol_uint *) &rdst.x));
-        sol_try (merak_point_y(dst, (sol_uint *) &rdst.y));
+        rdst.x = dst->x;
+        rdst.y = dst->y;
         rdst.w = tex->rect.w;
         rdst.h = tex->rect.h;
 
@@ -121,10 +121,11 @@ extern sol_erno merak_texture_draw(const merak_texture *tex,
         auto SDL_Rect rsrc, rdst;
 
 SOL_TRY:
-        sol_assert (tex, SOL_ERNO_PTR);
+        sol_assert (tex && src && dst, SOL_ERNO_PTR);
 
-        sol_try (merak_point_x(src, (sol_uint *) &rsrc.x));
-        sol_try (merak_point_y(src, (sol_uint *) &rsrc.y));
+        rsrc.x = src->x;
+        rsrc.y = src->y;
+
         sol_try (merak_area_width(clip, (sol_uint *) &rsrc.w));
         sol_try (merak_area_height(clip, (sol_uint *) &rsrc.h));
 
@@ -134,8 +135,8 @@ SOL_TRY:
                     && rsrc.h <= tex->rect.h,
                     SOL_ERNO_RANGE);
 
-        sol_try (merak_point_x(dst, (sol_uint *) &rdst.x));
-        sol_try (merak_point_y(dst, (sol_uint *) &rdst.y));
+        rdst.x = dst->x;
+        rdst.y = dst->y;
         rdst.w = rsrc.w;
         rdst.h = rsrc.h;
 

@@ -67,20 +67,10 @@ extern sol_erno merak_shade_setblue(merak_shade *shade, sol_word blue);
  * Interface: point
  */
 
-typedef struct __merak_point merak_point;
-
-extern sol_erno merak_point_new(merak_point **point, sol_uint x, sol_uint y);
-
-extern void merak_point_free(merak_point ** point);
-
-extern sol_erno merak_point_x(const merak_point *point, sol_uint *x);
-
-extern sol_erno merak_point_y(const merak_point *point, sol_uint *y);
-
-extern sol_erno merak_point_setx(merak_point *point, sol_uint x);
-
-extern sol_erno merak_point_sety(merak_point *point, sol_uint y);
-
+typedef struct __merak_point {
+        sol_u16 x;
+        sol_u16 y;
+} merak_point;
 
 
 
