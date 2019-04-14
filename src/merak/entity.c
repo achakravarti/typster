@@ -54,9 +54,6 @@ extern sol_erno merak_entity_new2(merak_entity **entity,
 SOL_TRY:
         sol_assert (sprite && update && draw, SOL_ERNO_PTR);
 
-        sol_try (merak_entity_new(entity, sprite, update));
-        (*entity)->draw = draw_default;
-
         sol_try (sol_ptr_new((sol_ptr **) entity, sizeof (**entity)));
         ctx = *entity;
 
@@ -124,7 +121,16 @@ extern sol_erno merak_entity_frame(const merak_entity *entity,
                                               sol_index *row,
                                               sol_index *col)
 {
-        return merak_sprite_frame((const merak_sprite *) entity, row, col);
+SOL_TRY:
+        sol_assert (entity, SOL_ERNO_PTR);
+
+        sol_try (merak_sprite_frame(entity->sprite, row, col));
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 
@@ -134,7 +140,16 @@ extern sol_erno merak_entity_setframe(merak_entity *entity,
                                       sol_index row,
                                       sol_index col)
 {
-        return merak_sprite_setframe((merak_sprite *) entity, row, col);
+SOL_TRY:
+        sol_assert (entity, SOL_ERNO_PTR);
+
+        sol_try (merak_sprite_setframe(entity->sprite, row, col));
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
 }
 
 

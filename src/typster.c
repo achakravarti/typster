@@ -1,5 +1,11 @@
 #include <SDL2/SDL.h>
 #include "merak/merak.h"
+#include "typster.h"
+
+
+
+
+static typster_enemy *enemy = SOL_PTR_NULL;
 
 
 
@@ -41,9 +47,6 @@ SOL_FINALLY:
         /* updates the state of a frame */
 sol_erno frame_update(void)
 {
-        auto merak_texture *dragon = SOL_PTR_NULL;
-        auto merak_sprite *typster = SOL_PTR_NULL;
-        auto merak_point loc;
         auto merak_shade shade;
 
 SOL_TRY:
@@ -52,25 +55,12 @@ SOL_TRY:
         shade.blue = 255;
         shade.alpha = 96;
         sol_try (merak_screen_clear(&shade));
-
-        sol_try (merak_texture_new(&dragon, "res/typster.png"));
-        loc.x = 100;
-        loc.y = 150;
-        sol_try (merak_texture_render(dragon, &loc));
-
-        sol_try (merak_sprite_new(&typster, "res/typster.png", 1, 4));
-        loc.x = loc.y = 400;
-        sol_try (merak_sprite_setframe(typster, 1, ((SDL_GetTicks() / 100) % 4) + 1 ));
-        sol_try (merak_sprite_draw(typster, &loc));
-
+        sol_try (merak_entity_update((merak_entity *) enemy));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
-        merak_texture_free(&dragon);
-        merak_sprite_free(&typster);
-
         return sol_erno_get();
 }
 
@@ -81,6 +71,7 @@ SOL_FINALLY:
 sol_erno frame_render(void)
 {
 SOL_TRY:
+        sol_try (merak_entity_draw((merak_entity *) enemy));
         sol_try (merak_screen_render());
 
 SOL_CATCH:
@@ -110,18 +101,21 @@ SOL_TRY:
         sol_try (merak_screen_init("Typster", &res, SOL_BOOL_TRUE));
         sol_try (merak_event_init());
 
+        sol_try (typster_enemy_new(&enemy));
+
         sol_try (merak_game_run());
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
-        sol_log_close();
+        typster_enemy_free(&enemy);
 
         merak_screen_exit();
         merak_event_exit();
         merak_game_exit();
 
+        sol_log_close();
         return (int) sol_erno_get();
 }
 

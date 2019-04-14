@@ -13,7 +13,8 @@
  * Interface: enemy
  */
 
-typedef merak_entity typster_enemy;
+//typedef merak_entity typster_enemy;
+typedef struct __typster_enemy typster_enemy;
 
 extern sol_erno typster_enemy_new(typster_enemy **enemy);
 
