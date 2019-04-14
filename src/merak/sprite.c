@@ -9,6 +9,8 @@ struct __merak_sprite {
         merak_texture *tex;
         sol_u8 nrow;
         sol_u8 ncol;
+        sol_u8 row;
+        sol_u8 col;
 };
 
 
@@ -23,13 +25,18 @@ extern sol_erno merak_sprite_new(merak_sprite **sprite,
 
 SOL_TRY:
         sol_assert (nrow && ncol, SOL_ERNO_RANGE);
-        sol_assert (nrow <= SOL_U8_MAX && ncol <= SOL_U8_MAX, SOL_ERNO_RANGE);
+        sol_assert (nrow >= 1
+                    && nrow <= SOL_U8_MAX
+                    && ncol >= 1
+                    && ncol <= SOL_U8_MAX,
+                    SOL_ERNO_RANGE);
 
         sol_try (sol_ptr_new((sol_ptr **) sprite, sizeof (**sprite)));
         ctx = *sprite;
 
         ctx->nrow = nrow;
         ctx->ncol = ncol;
+        ctx->row = ctx->col = 1;
 
         ctx->tex = SOL_PTR_NULL;
         sol_try(merak_texture_new(&ctx->tex, fpath));
@@ -92,25 +99,67 @@ SOL_FINALLY:
 
 
 
+extern sol_erno merak_sprite_frame(const merak_sprite *sprite,
+                                   sol_index *row,
+                                   sol_index *col)
+{
+SOL_TRY:
+        sol_assert (sprite && row && col, SOL_ERNO_PTR);
+
+        *row = sprite->row;
+        *col = sprite->col;
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
+extern sol_erno merak_sprite_setframe(merak_sprite *sprite,
+                                      sol_index row,
+                                      sol_index col)
+{
+SOL_TRY:
+        sol_assert (sprite, SOL_ERNO_PTR);
+        sol_assert (row >= 1
+                    && row <= sprite->nrow
+                    && col >= 1
+                    && col <= sprite->ncol,
+                    SOL_ERNO_RANGE);
+
+        sprite->row = row;
+        sprite->col = col;
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
 extern sol_erno merak_sprite_draw(const merak_sprite *sprite,
-                                  sol_index row,
-                                  sol_index col,
-                                  const merak_point *dst)
+                                  const merak_point *pos)
 {
         auto merak_area area, clip;
         auto merak_point src;
 
 SOL_TRY:
         sol_assert (sprite, SOL_ERNO_PTR);
-        sol_assert (row <= sprite->nrow && col <= sprite->ncol, SOL_ERNO_RANGE);
 
         sol_try (merak_texture_area(sprite->tex, &area));
         clip.width = area.width / sprite->ncol;
         clip.height = area.height / sprite->nrow;
 
-        src.x = clip.width * (col - 1);
-        src.y = clip.height * (row - 1);
-        sol_try (merak_texture_draw(sprite->tex, &src, &clip, dst));
+        src.x = clip.width * (sprite->col - 1);
+        src.y = clip.height * (sprite->row - 1);
+        sol_try (merak_texture_draw(sprite->tex, &src, &clip, pos));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());

@@ -15,7 +15,7 @@ static sol_erno draw_default(merak_entity *entity)
 SOL_TRY:
         sol_assert (entity, SOL_ERNO_PTR);
 
-        sol_try (merak_sprite_draw(entity->sprite, 1, 1, &entity->pos));
+        sol_try (merak_sprite_draw(entity->sprite, &entity->pos));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());

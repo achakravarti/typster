@@ -170,10 +170,16 @@ extern sol_erno merak_sprite_area(const merak_sprite *sprite,
 extern sol_erno merak_sprite_nframe(const merak_sprite *sprite,
                                     sol_size *nframe);
 
+extern sol_erno merak_sprite_frame(const merak_sprite *sprite,
+                                   sol_index *row,
+                                   sol_index *col);
+
+extern sol_erno merak_sprite_setframe(merak_sprite *sprite,
+                                      sol_index row,
+                                      sol_index col);
+
 extern sol_erno merak_sprite_draw(const merak_sprite *sprite,
-                                  sol_index row,
-                                  sol_index col,
-                                  const merak_point *loc);
+                                  const merak_point *pos);
 
 
 
