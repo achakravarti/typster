@@ -120,20 +120,21 @@ SOL_FINALLY:
 
 
 
-
-extern sol_erno merak_entity_sprite(const merak_entity *entity,
-                                    merak_sprite *sprite)
+extern sol_erno merak_entity_frame(const merak_entity *entity,
+                                              sol_index *row,
+                                              sol_index *col)
 {
-SOL_TRY:
-        sol_assert (entity && !sprite, SOL_ERNO_PTR);
+        return merak_sprite_frame((const merak_sprite *) entity, row, col);
+}
 
-        sprite = entity->sprite;
 
-SOL_CATCH:
-        sol_log_erno(sol_erno_get());
 
-SOL_FINALLY:
-        return sol_erno_get();
+
+extern sol_erno merak_entity_setframe(merak_entity *entity,
+                                      sol_index row,
+                                      sol_index col)
+{
+        return merak_sprite_setframe((merak_sprite *) entity, row, col);
 }
 
 

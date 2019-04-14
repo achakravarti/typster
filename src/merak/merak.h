@@ -208,8 +208,13 @@ extern sol_erno merak_entity_pos(const merak_entity *entity, merak_point *pos);
 extern sol_erno merak_entity_setpos(merak_entity *entity,
                                     const merak_point *pos);
 
-extern sol_erno merak_entity_sprite(const merak_entity *entity,
-                                    merak_sprite *sprite);
+extern sol_erno merak_entity_frame(const merak_entity *entity,
+                                              sol_index *row,
+                                              sol_index *col);
+
+extern sol_erno merak_entity_setframe(merak_entity *entity,
+                                      sol_index row,
+                                      sol_index col);
 
 extern sol_erno merak_entity_update(merak_entity *entity);
 
