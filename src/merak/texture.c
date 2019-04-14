@@ -8,6 +8,7 @@
 struct __merak_texture {
         SDL_Texture *tex;
         SDL_Rect rect;
+        sol_size nref;
 };
 
 
@@ -23,6 +24,7 @@ SOL_TRY:
 
         sol_try (sol_ptr_new((sol_ptr **) tex, sizeof (**tex)));
         ctx = *tex;
+        ctx->nref = (sol_size) 1;
 
         sol_try (merak_screen_brush((sol_ptr **) &brush));
         sol_assert (ctx->tex = IMG_LoadTexture(brush, fpath), SOL_ERNO_STATE);
@@ -47,17 +49,35 @@ SOL_FINALLY:
 
 
 
+extern sol_erno merak_texture_copy(merak_texture **lhs, merak_texture *rhs)
+{
+SOL_TRY:
+        sol_assert (lhs && rhs, SOL_ERNO_PTR);
+        sol_assert (!*lhs, SOL_ERNO_STATE);
+
+        rhs->nref++;
+        *lhs = rhs;
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
 extern void merak_texture_free(merak_texture **tex)
 {
         auto merak_texture *ctx;
 
         if (sol_likely (tex && (ctx = *tex))) {
-                if (sol_likely (ctx->tex)) {
+                if (!(--ctx->nref) && sol_likely (ctx->tex)) {
                         SDL_DestroyTexture(ctx->tex);
+                        sol_ptr_free((sol_ptr **) tex);
                 }
         }
-
-        sol_ptr_free((sol_ptr **) tex);
 }
 
 
