@@ -187,11 +187,11 @@ typedef struct __merak_entity merak_entity;
 typedef sol_erno (merak_entity_delegate)(merak_entity *entity);
 
 extern sol_erno merak_entity_new(merak_entity **entity,
-                                 const merak_sprite *sprite,
+                                 merak_sprite *sprite,
                                  merak_entity_delegate *update);
 
 extern sol_erno merak_entity_new2(merak_entity **entity,
-                                  const merak_sprite *sprite,
+                                  merak_sprite *sprite,
                                   merak_entity_delegate *update,
                                   merak_entity_delegate *draw);
 

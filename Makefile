@@ -1,4 +1,4 @@
-SRC := src/merak/screen.c src/merak/game.c \
+SRC := src/merak/screen.c src/merak/game.c src/merak/entity.c \
        src/merak/event.c \
        src/merak/texture.c src/merak/sprite.c src/typster.c
 INC := -I "../"
