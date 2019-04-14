@@ -1,3 +1,4 @@
+#include <SDL2/SDL.h>
 #include "merak/merak.h"
 
 
@@ -59,8 +60,7 @@ SOL_TRY:
 
         sol_try (merak_sprite_new(&typster, "res/typster.png", 1, 4));
         loc.x = loc.y = 400;
-        //sol_try (merak_sprite_draw(typster, 1, 3, &loc));
-        sol_try (merak_sprite_setframe(typster, 1, 3));
+        sol_try (merak_sprite_setframe(typster, 1, ((SDL_GetTicks() / 100) % 4) + 1 ));
         sol_try (merak_sprite_draw(typster, &loc));
 
 
