@@ -1,5 +1,5 @@
-#if (!defined __MERAK_SCREEN)
-#define __MERAK_SCREEN
+#if (!defined __MERAK_API)
+#define __MERAK_API
 
 
 
@@ -178,5 +178,36 @@ extern sol_erno merak_sprite_draw(const merak_sprite *sprite,
 
 
 
-#endif /* __MERAK_SCREEN */
+/*
+ * Interface: entity
+ */
+
+typedef struct __merak_entity merak_entity;
+
+typedef sol_erno (merak_entity_delegate)(merak_entity *entity);
+
+extern sol_erno merak_entity_new(merak_entity **entity,
+                                 const merak_sprite *sprite,
+                                 merak_entity_delegate *update);
+
+extern sol_erno merak_entity_new2(merak_entity **entity,
+                                  const merak_sprite *sprite,
+                                  merak_entity_delegate *update,
+                                  merak_entity_delegate *draw);
+
+extern void merak_entity_free(merak_entity **entity);
+
+extern sol_erno merak_entity_pos(const merak_entity *entity, merak_point *pos);
+
+extern sol_erno merak_entity_setpos(merak_entity *entity,
+                                    const merak_point *pos);
+
+extern sol_erno merak_entity_update(merak_entity *entity);
+
+extern sol_erno merak_entity_draw(merak_entity *entity);
+
+
+
+
+#endif /* __MERAK_API */
 
