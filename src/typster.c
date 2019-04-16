@@ -55,7 +55,6 @@ SOL_TRY:
         shade.blue = 255;
         shade.alpha = 96;
         sol_try (merak_screen_clear(&shade));
-        sol_try (merak_entity_update((merak_entity *) enemy));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -71,8 +70,8 @@ SOL_FINALLY:
 sol_erno frame_render(void)
 {
 SOL_TRY:
-        sol_try (merak_entity_draw((merak_entity *) enemy));
-        sol_try (merak_screen_render());
+        //sol_try (merak_screen_render());
+        sol_assert (SOL_BOOL_TRUE, SOL_ERNO_STATE);
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -102,6 +101,7 @@ SOL_TRY:
         sol_try (merak_event_init());
 
         sol_try (typster_enemy_new(&enemy));
+        sol_try (merak_game_register((merak_entity *) enemy));
 
         sol_try (merak_game_run());
 
