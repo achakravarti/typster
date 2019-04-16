@@ -102,22 +102,6 @@ extern sol_erno merak_screen_render(void);
 
 
 /*
- * Interface: game
- */
-typedef sol_erno (merak_game_delegate)(void);
-
-extern sol_erno merak_game_init(merak_game_delegate *input,
-                                merak_game_delegate *update,
-                                merak_game_delegate *render);
-
-extern void merak_game_exit(void);
-
-extern sol_erno merak_game_run(void);
-
-
-
-
-/*
  * Interface: event
  */
 typedef enum __MERAK_EVENT_CODE {
@@ -201,6 +185,8 @@ extern sol_erno merak_entity_new2(merak_entity **entity,
                                   merak_entity_delegate *update,
                                   merak_entity_delegate *draw);
 
+extern sol_erno merak_entity_copy(merak_entity **lhs, const merak_entity *rhs);
+
 extern void merak_entity_free(merak_entity **entity);
 
 extern sol_erno merak_entity_pos(const merak_entity *entity, merak_point *pos);
@@ -219,6 +205,24 @@ extern sol_erno merak_entity_setframe(merak_entity *entity,
 extern sol_erno merak_entity_update(merak_entity *entity);
 
 extern sol_erno merak_entity_draw(merak_entity *entity);
+
+
+
+
+/*
+ * Interface: game
+ */
+typedef sol_erno (merak_game_delegate)(void);
+
+extern sol_erno merak_game_init(merak_game_delegate *input,
+                                merak_game_delegate *update,
+                                merak_game_delegate *render);
+
+extern void merak_game_exit(void);
+
+extern sol_erno merak_game_register(const merak_entity *entity);
+
+extern sol_erno merak_game_run(void);
 
 
 
