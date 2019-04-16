@@ -72,6 +72,22 @@ SOL_FINALLY:
 
 
 
+extern sol_erno merak_entity_copy(merak_entity **lhs, const merak_entity *rhs)
+{
+SOL_TRY:
+        merak_entity_free(lhs);
+        sol_try (merak_entity_new2(lhs, rhs->sprite, rhs->update, rhs->draw));
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
 extern void merak_entity_free(merak_entity **entity)
 {
         if (sol_likely (entity && *entity))
