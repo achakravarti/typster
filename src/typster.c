@@ -70,7 +70,6 @@ SOL_FINALLY:
 sol_erno frame_render(void)
 {
 SOL_TRY:
-        //sol_try (merak_screen_render());
         sol_assert (SOL_BOOL_TRUE, SOL_ERNO_STATE);
 
 SOL_CATCH:

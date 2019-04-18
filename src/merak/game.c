@@ -86,7 +86,7 @@ static void list_free(struct list **list)
 
 
 
-static sol_erno list_push(struct list *list, const merak_entity *elem)
+static sol_erno list_push(struct list *list, merak_entity *elem)
 {
         auto struct list_node *node = SOL_PTR_NULL;
 
@@ -208,7 +208,7 @@ extern void merak_game_exit(void)
 
 
 
-extern sol_erno merak_game_register(const merak_entity *entity)
+extern sol_erno merak_game_register(merak_entity *entity)
 {
 SOL_TRY:
         sol_assert (entity, SOL_ERNO_PTR);

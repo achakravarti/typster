@@ -129,6 +129,8 @@ typedef struct __merak_sprite merak_sprite;
 
 extern sol_erno merak_texture_new(merak_texture **tex, const char *fpath);
 
+extern sol_erno merak_texture_copy(merak_texture **lhs, merak_texture *rhs);
+
 extern void merak_texture_free(merak_texture **tex);
 
 extern sol_erno merak_texture_area(const merak_texture *tex, merak_area *area);
@@ -145,6 +147,9 @@ extern sol_erno merak_sprite_new(merak_sprite **sprite,
                                  const char *fpath,
                                  sol_size nrow,
                                  sol_size ncol);
+
+extern sol_erno merak_sprite_copy(merak_sprite **lhs, merak_sprite *rhs);
+
 
 extern void merak_sprite_free(merak_sprite **sprite);
 
@@ -185,7 +190,7 @@ extern sol_erno merak_entity_new2(merak_entity **entity,
                                   merak_entity_delegate *update,
                                   merak_entity_delegate *draw);
 
-extern sol_erno merak_entity_copy(merak_entity **lhs, const merak_entity *rhs);
+extern sol_erno merak_entity_copy(merak_entity **lhs, merak_entity *rhs);
 
 extern void merak_entity_free(merak_entity **entity);
 
@@ -195,8 +200,8 @@ extern sol_erno merak_entity_setpos(merak_entity *entity,
                                     const merak_point *pos);
 
 extern sol_erno merak_entity_frame(const merak_entity *entity,
-                                              sol_index *row,
-                                              sol_index *col);
+                                   sol_index *row,
+                                   sol_index *col);
 
 extern sol_erno merak_entity_setframe(merak_entity *entity,
                                       sol_index row,
@@ -220,7 +225,7 @@ extern sol_erno merak_game_init(merak_game_delegate *input,
 
 extern void merak_game_exit(void);
 
-extern sol_erno merak_game_register(const merak_entity *entity);
+extern sol_erno merak_game_register(merak_entity *entity);
 
 extern sol_erno merak_game_run(void);
 

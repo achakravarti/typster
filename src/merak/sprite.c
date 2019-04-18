@@ -11,6 +11,7 @@ struct __merak_sprite {
         sol_u8 ncol;
         sol_u8 row;
         sol_u8 col;
+        sol_size nref;
 };
 
 
@@ -33,6 +34,7 @@ SOL_TRY:
 
         sol_try (sol_ptr_new((sol_ptr **) sprite, sizeof (**sprite)));
         ctx = *sprite;
+        ctx->nref = (sol_size) 1;
 
         ctx->nrow = nrow;
         ctx->ncol = ncol;
@@ -51,12 +53,35 @@ SOL_FINALLY:
 
 
 
+extern sol_erno merak_sprite_copy(merak_sprite **lhs, merak_sprite *rhs)
+{
+SOL_TRY:
+        sol_assert (lhs && rhs, SOL_ERNO_PTR);
+        sol_assert (!*lhs, SOL_ERNO_STATE);
+
+        rhs->nref++;
+        *lhs = rhs;
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
 extern void merak_sprite_free(merak_sprite **sprite)
 {
-        if (sol_likely (sprite && *sprite))
-                merak_texture_free(&(*sprite)->tex);
+        auto merak_sprite *hnd;
 
-        sol_ptr_free((sol_ptr **) sprite);
+        if (sol_likely (sprite && (hnd = *sprite))) {
+                if (!(--hnd->nref)) {
+                        merak_texture_free(&hnd->tex);
+                        sol_ptr_free((sol_ptr **) sprite);
+                }
+        }
 }
 
 

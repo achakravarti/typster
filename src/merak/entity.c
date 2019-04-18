@@ -5,6 +5,7 @@ struct __merak_entity {
         merak_entity_delegate *update;
         merak_entity_delegate *draw;
         merak_point pos;
+        sol_size nref;
 };
 
 
@@ -56,8 +57,11 @@ SOL_TRY:
 
         sol_try (sol_ptr_new((sol_ptr **) entity, sizeof (**entity)));
         ctx = *entity;
+        ctx->nref = (sol_size) 1;
 
-        ctx->sprite = sprite;
+        ctx->sprite = SOL_PTR_NULL;
+        sol_try (merak_sprite_copy(&ctx->sprite, sprite));
+
         ctx->update = update;
         ctx->draw = draw;
         ctx->pos.x = ctx->pos.y = 0;
@@ -72,11 +76,17 @@ SOL_FINALLY:
 
 
 
-extern sol_erno merak_entity_copy(merak_entity **lhs, const merak_entity *rhs)
+extern sol_erno merak_entity_copy(merak_entity **lhs, merak_entity *rhs)
 {
 SOL_TRY:
-        merak_entity_free(lhs);
-        sol_try (merak_entity_new2(lhs, rhs->sprite, rhs->update, rhs->draw));
+        sol_assert (lhs && rhs, SOL_ERNO_PTR);
+        sol_assert (!*lhs, SOL_ERNO_STATE);
+
+        //merak_entity_free(lhs);
+        //sol_try (merak_entity_new2(lhs, rhs->sprite, rhs->update, rhs->draw));
+
+        rhs->nref++;
+        *lhs = rhs;
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
