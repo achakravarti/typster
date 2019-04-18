@@ -3,6 +3,7 @@
 struct __merak_entity {
         merak_sprite *sprite;
         merak_entity_delegate *update;
+        merak_entity_delegate *dispose;
         merak_entity_delegate *draw;
         merak_point pos;
         sol_size nref;
@@ -27,13 +28,25 @@ SOL_FINALLY:
 
 
 
+static sol_erno dispose_default(merak_entity *entity)
+{
+        (void) entity;
+        return SOL_BOOL_TRUE;
+}
+
+
+
 
 extern sol_erno merak_entity_new(merak_entity **entity,
                                  merak_sprite *sprite,
                                  merak_entity_delegate *update)
 {
 SOL_TRY:
-        sol_try (merak_entity_new2(entity, sprite, update, &draw_default));
+        sol_try (merak_entity_new3(entity,
+                                   sprite,
+                                   update,
+                                   &dispose_default,
+                                   &draw_default));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -48,12 +61,35 @@ SOL_FINALLY:
 extern sol_erno merak_entity_new2(merak_entity **entity,
                                   merak_sprite *sprite,
                                   merak_entity_delegate *update,
+                                  merak_entity_delegate *dispose)
+{
+SOL_TRY:
+        sol_try (merak_entity_new3(entity,
+                                   sprite,
+                                   update,
+                                   dispose,
+                                   &draw_default));
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
+extern sol_erno merak_entity_new3(merak_entity **entity,
+                                  merak_sprite *sprite,
+                                  merak_entity_delegate *update,
+                                  merak_entity_delegate *dispose,
                                   merak_entity_delegate *draw)
 {
         auto merak_entity *ctx;
 
 SOL_TRY:
-        sol_assert (sprite && update && draw, SOL_ERNO_PTR);
+        sol_assert (sprite && update && dispose && draw, SOL_ERNO_PTR);
 
         sol_try (sol_ptr_new((sol_ptr **) entity, sizeof (**entity)));
         ctx = *entity;
@@ -63,6 +99,7 @@ SOL_TRY:
         sol_try (merak_sprite_copy(&ctx->sprite, sprite));
 
         ctx->update = update;
+        ctx->dispose = dispose;
         ctx->draw = draw;
         ctx->pos.x = ctx->pos.y = 0;
 
@@ -82,9 +119,6 @@ SOL_TRY:
         sol_assert (lhs && rhs, SOL_ERNO_PTR);
         sol_assert (!*lhs, SOL_ERNO_STATE);
 
-        //merak_entity_free(lhs);
-        //sol_try (merak_entity_new2(lhs, rhs->sprite, rhs->update, rhs->draw));
-
         rhs->nref++;
         *lhs = rhs;
 
@@ -100,8 +134,12 @@ SOL_FINALLY:
 
 extern void merak_entity_free(merak_entity **entity)
 {
-        if (sol_likely (entity && *entity))
-                merak_sprite_free (&(*entity)->sprite);
+        auto merak_entity *hnd;
+
+        if (sol_likely (entity && (hnd = *entity))) {
+                (void) hnd->dispose(hnd);
+                merak_sprite_free (&hnd->sprite);
+        }
 
         sol_ptr_free((sol_ptr **) entity);
 }

@@ -188,6 +188,12 @@ extern sol_erno merak_entity_new(merak_entity **entity,
 extern sol_erno merak_entity_new2(merak_entity **entity,
                                   merak_sprite *sprite,
                                   merak_entity_delegate *update,
+                                  merak_entity_delegate *dispose);
+
+extern sol_erno merak_entity_new3(merak_entity **entity,
+                                  merak_sprite *sprite,
+                                  merak_entity_delegate *update,
+                                  merak_entity_delegate *dispose,
                                   merak_entity_delegate *draw);
 
 extern sol_erno merak_entity_copy(merak_entity **lhs, merak_entity *rhs);
