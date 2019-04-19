@@ -69,6 +69,53 @@ typedef struct __merak_area {
 
 
 /*
+ * Interface: vector
+ */
+
+typedef struct __merak_vector merak_vector;
+
+extern sol_erno merak_vector_new(merak_vector **vec);
+
+extern sol_erno merak_vector_new2(merak_vector **vec,
+                                  const sol_float x,
+                                  const sol_float y);
+
+extern sol_erno merak_vector_copy(merak_vector **lhs, const merak_vector *rhs);
+
+extern void merak_vector_free(merak_vector **vec);
+
+extern sol_erno merak_vector_x(const merak_vector *vec, sol_float *x);
+
+extern sol_erno merak_vector_y(const merak_vector *vec, sol_float *y);
+
+extern sol_erno merak_vector_len(const merak_vector *vec, sol_float *len);
+
+extern sol_erno merak_vector_setx(merak_vector *vec, const sol_float x);
+
+extern sol_erno merak_vector_sety(merak_vector *vec, const sol_float y);
+
+extern sol_erno merak_vector_add(merak_vector *lhs, const merak_vector *rhs);
+
+extern sol_erno merak_vector_add2(merak_vector *vec,
+                                  const sol_float x,
+                                  const sol_float y);
+
+extern sol_erno merak_vector_sub(merak_vector *rhs, const merak_vector *rhs);
+
+extern sol_erno merak_vector_sub2(merak_vector *vec,
+                                  const sol_float x,
+                                  const sol_float y);
+
+extern sol_erno merak_vector_mul(merak_vector *vec, const sol_float scalar);
+
+extern sol_erno merak_vector_div(merak_vector *vec, const sol_float scalar);
+
+extern sol_erno merak_vector_norm(merak_vector *vec);
+
+
+
+
+/*
  * Interface: screen
  *
  * Synopsis:
