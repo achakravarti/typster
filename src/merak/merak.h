@@ -100,7 +100,7 @@ extern sol_erno merak_vector_add2(merak_vector *vec,
                                   const sol_float x,
                                   const sol_float y);
 
-extern sol_erno merak_vector_sub(merak_vector *rhs, const merak_vector *rhs);
+extern sol_erno merak_vector_sub(merak_vector *lhs, const merak_vector *rhs);
 
 extern sol_erno merak_vector_sub2(merak_vector *vec,
                                   const sol_float x,
