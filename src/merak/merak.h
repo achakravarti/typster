@@ -94,6 +94,18 @@ extern sol_erno merak_vector_setx(merak_vector *vec, const sol_float x);
 
 extern sol_erno merak_vector_sety(merak_vector *vec, const sol_float y);
 
+extern sol_erno merak_vector_lt(const merak_vector *lhs,
+                                const merak_vector *rhs,
+                                SOL_BOOL *lt);
+
+extern sol_erno merak_vector_eq(const merak_vector *lhs,
+                                const merak_vector *rhs,
+                                SOL_BOOL *eq);
+
+extern sol_erno merak_vector_gt(const merak_vector *lhs,
+                                const merak_vector *rhs,
+                                SOL_BOOL *gt);
+
 extern sol_erno merak_vector_add(merak_vector *lhs, const merak_vector *rhs);
 
 extern sol_erno merak_vector_add2(merak_vector *vec,

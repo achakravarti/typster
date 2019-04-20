@@ -12,6 +12,50 @@ struct __merak_vector {
 
 
 
+#define FLOAT_EPSILON (0.000001f)
+
+
+
+
+/* https://stackoverflow.com/questions/17333/what-is-the-most-effective-way-for-float-and-double-comparison*/
+static sol_inline SOL_BOOL float_lt(sol_float lhs, sol_float rhs)
+{
+    return (rhs - lhs) > ((fabs(lhs) < fabs(rhs)
+                          ? fabs(rhs)
+                          : fabs(lhs)) * FLOAT_EPSILON)
+           ? SOL_BOOL_TRUE
+           : SOL_BOOL_FALSE;
+}
+
+
+
+
+/* https://stackoverflow.com/questions/17333/what-is-the-most-effective-way-for-float-and-double-comparison*/
+static sol_inline SOL_BOOL float_eq(sol_float lhs, sol_float rhs)
+{
+    return fabs(lhs - rhs) <= ((fabs(lhs) > fabs(rhs)
+                               ? fabs(rhs)
+                               : fabs(lhs)) * FLOAT_EPSILON)
+           ? SOL_BOOL_TRUE
+           : SOL_BOOL_FALSE;
+}
+
+
+
+
+/* https://stackoverflow.com/questions/17333/what-is-the-most-effective-way-for-float-and-double-comparison*/
+static SOL_BOOL float_gt(sol_float lhs, sol_float rhs)
+{
+    return (lhs - rhs) > ((fabs(lhs) < fabs(rhs)
+                           ? fabs(rhs)
+                           : fabs(lhs)) * FLOAT_EPSILON)
+           ? SOL_BOOL_TRUE
+           : SOL_BOOL_FALSE;
+}
+
+
+
+
 extern sol_erno merak_vector_new(merak_vector **vec)
 {
         const sol_float def = (sol_float) 0.0;
@@ -167,6 +211,75 @@ SOL_FINALLY:
 
 
 
+extern sol_erno merak_vector_lt(const merak_vector *lhs,
+                                const merak_vector *rhs,
+                                SOL_BOOL *lt)
+{
+        auto sol_float llen, rlen;
+
+SOL_TRY:
+        sol_assert (lt, SOL_ERNO_PTR);
+
+        sol_try (merak_vector_len(lhs, &llen));
+        sol_try (merak_vector_len(rhs, &rlen));
+        *lt = float_lt(llen, rlen);
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
+extern sol_erno merak_vector_eq(const merak_vector *lhs,
+                                const merak_vector *rhs,
+                                SOL_BOOL *eq)
+{
+        auto sol_float llen, rlen;
+
+SOL_TRY:
+        sol_assert (eq, SOL_ERNO_PTR);
+
+        sol_try (merak_vector_len(lhs, &llen));
+        sol_try (merak_vector_len(rhs, &rlen));
+        *eq = float_eq(llen, rlen);
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
+extern sol_erno merak_vector_gt(const merak_vector *lhs,
+                                const merak_vector *rhs,
+                                SOL_BOOL *gt)
+{
+        auto sol_float llen, rlen;
+
+SOL_TRY:
+        sol_assert (gt, SOL_ERNO_PTR);
+
+        sol_try (merak_vector_len(lhs, &llen));
+        sol_try (merak_vector_len(rhs, &rlen));
+        *gt = float_gt(llen, rlen);
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
 extern sol_erno merak_vector_add(merak_vector *lhs, const merak_vector *rhs)
 {
 SOL_TRY:
@@ -262,25 +375,11 @@ SOL_FINALLY:
 
 
 
-
-static inline SOL_BOOL float_nonzero(sol_float f)
-{
-        const double zero = 0.0;
-        const double delta = 0.000001;
-
-        return fabs((double) f - zero) < delta
-               ? SOL_BOOL_TRUE
-               : SOL_BOOL_FALSE;
-}
-
-
-
-
 extern sol_erno merak_vector_div(merak_vector *vec, const sol_float scalar)
 {
 SOL_TRY:
         sol_assert (vec, SOL_ERNO_PTR);
-        sol_assert (float_nonzero(scalar), SOL_ERNO_RANGE);
+        sol_assert (!float_eq(scalar, (sol_float) 0.0), SOL_ERNO_RANGE);
 
         vec->x /= (sol_f32) scalar;
         vec->y /= (sol_f32) scalar;
@@ -302,7 +401,7 @@ extern sol_erno merak_vector_norm(merak_vector *vec)
 SOL_TRY:
         sol_try (merak_vector_len(vec, &len));
 
-        if (sol_likely (float_nonzero(len)))
+        if (sol_likely (!float_eq(len, (sol_float) 0.0)))
                 sol_try (merak_vector_mul(vec, (1.0 / len)));
 
 SOL_CATCH:
