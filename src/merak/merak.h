@@ -247,14 +247,15 @@ extern sol_erno merak_entity_copy(merak_entity **lhs, merak_entity *rhs);
 
 extern void merak_entity_free(merak_entity **entity);
 
-extern sol_erno merak_entity_pos(const merak_entity *entity, merak_point *pos);
-
-extern sol_erno merak_entity_setpos(merak_entity *entity,
-                                    const merak_point *pos);
+extern sol_erno merak_entity_vec(const merak_entity *entity,
+                                 merak_vector **vec);
 
 extern sol_erno merak_entity_frame(const merak_entity *entity,
                                    sol_index *row,
                                    sol_index *col);
+
+extern sol_erno merak_entity_setvec(merak_entity *entity,
+                                    const merak_vector *vec);
 
 extern sol_erno merak_entity_setframe(merak_entity *entity,
                                       sol_index row,

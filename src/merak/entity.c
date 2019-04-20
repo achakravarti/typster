@@ -4,11 +4,11 @@
 
 
 struct __merak_entity {
+        merak_vector *vec;
         merak_sprite *sprite;
         merak_entity_delegate *update;
         merak_entity_delegate *dispose;
         merak_entity_delegate *draw;
-        merak_point pos;
         sol_size nref;
 };
 
@@ -17,10 +17,19 @@ struct __merak_entity {
 
 static sol_erno draw_default(merak_entity *entity)
 {
+        auto sol_float x, y;
+        auto merak_point pos;
+
 SOL_TRY:
         sol_assert (entity, SOL_ERNO_PTR);
 
-        sol_try (merak_sprite_draw(entity->sprite, &entity->pos));
+        sol_try (merak_vector_x(entity->vec, &x));
+        sol_try (merak_vector_x(entity->vec, &y));
+
+        pos.x = (sol_u16) x;
+        pos.y = (sol_u16) y;
+
+        sol_try (merak_sprite_draw(entity->sprite, &pos));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -98,13 +107,15 @@ SOL_TRY:
         ctx = *entity;
         ctx->nref = (sol_size) 1;
 
+        ctx->vec = SOL_PTR_NULL;
+        sol_try (merak_vector_new(&ctx->vec));
+
         ctx->sprite = SOL_PTR_NULL;
         sol_try (merak_sprite_copy(&ctx->sprite, sprite));
 
         ctx->update = update;
         ctx->dispose = dispose;
         ctx->draw = draw;
-        ctx->pos.x = ctx->pos.y = 0;
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -141,7 +152,9 @@ extern void merak_entity_free(merak_entity **entity)
 
         if (sol_likely (entity && (hnd = *entity))) {
                 (void) hnd->dispose(hnd);
-                merak_sprite_free (&hnd->sprite);
+
+                merak_sprite_free(&hnd->sprite);
+                merak_vector_free(&hnd->vec);
         }
 
         sol_ptr_free((sol_ptr **) entity);
@@ -150,12 +163,12 @@ extern void merak_entity_free(merak_entity **entity)
 
 
 
-extern sol_erno merak_entity_pos(const merak_entity *entity, merak_point *pos)
+extern sol_erno merak_entity_vec(const merak_entity *entity, merak_vector **vec)
 {
 SOL_TRY:
-        sol_assert (entity && pos, SOL_ERNO_PTR);
+        sol_assert (entity, SOL_ERNO_PTR);
 
-        *pos = entity->pos;
+        sol_try (merak_vector_copy(vec, entity->vec));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -164,34 +177,36 @@ SOL_FINALLY:
         return sol_erno_get();
 }
 
-
-
-
-extern sol_erno merak_entity_setpos(merak_entity *entity,
-                                    const merak_point *pos)
-{
-SOL_TRY:
-        sol_assert (entity && pos, SOL_ERNO_PTR);
-
-        entity->pos = *pos;
-
-SOL_CATCH:
-        sol_log_erno(sol_erno_get());
-
-SOL_FINALLY:
-        return sol_erno_get();
-}
 
 
 
 extern sol_erno merak_entity_frame(const merak_entity *entity,
-                                              sol_index *row,
-                                              sol_index *col)
+                                   sol_index *row,
+                                   sol_index *col)
 {
 SOL_TRY:
         sol_assert (entity, SOL_ERNO_PTR);
 
         sol_try (merak_sprite_frame(entity->sprite, row, col));
+
+SOL_CATCH:
+        sol_log_erno(sol_erno_get());
+
+SOL_FINALLY:
+        return sol_erno_get();
+}
+
+
+
+
+extern sol_erno merak_entity_setvec(merak_entity *entity,
+                                    const merak_vector *vec)
+{
+SOL_TRY:
+        sol_assert (entity, SOL_ERNO_PTR);
+
+        merak_vector_free(&entity->vec);
+        sol_try (merak_vector_copy(&entity->vec, vec));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
