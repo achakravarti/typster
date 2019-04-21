@@ -273,6 +273,9 @@ extern sol_erno merak_entity_setframe(merak_entity *entity,
                                       sol_index row,
                                       sol_index col);
 
+extern sol_erno merak_entity_move(merak_entity *entity,
+                                  const merak_vector *velocity);
+
 extern sol_erno merak_entity_update(merak_entity *entity);
 
 extern sol_erno merak_entity_draw(merak_entity *entity);

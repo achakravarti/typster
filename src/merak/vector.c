@@ -20,11 +20,11 @@ struct __merak_vector {
 /* https://stackoverflow.com/questions/17333/what-is-the-most-effective-way-for-float-and-double-comparison*/
 static sol_inline SOL_BOOL float_lt(sol_float lhs, sol_float rhs)
 {
-    return (rhs - lhs) > ((fabs(lhs) < fabs(rhs)
-                          ? fabs(rhs)
-                          : fabs(lhs)) * FLOAT_EPSILON)
-           ? SOL_BOOL_TRUE
-           : SOL_BOOL_FALSE;
+        return (rhs - lhs) > ((fabs(lhs) < fabs(rhs)
+                              ? fabs(rhs)
+                              : fabs(lhs)) * FLOAT_EPSILON)
+               ? SOL_BOOL_TRUE
+               : SOL_BOOL_FALSE;
 }
 
 
@@ -33,11 +33,11 @@ static sol_inline SOL_BOOL float_lt(sol_float lhs, sol_float rhs)
 /* https://stackoverflow.com/questions/17333/what-is-the-most-effective-way-for-float-and-double-comparison*/
 static sol_inline SOL_BOOL float_eq(sol_float lhs, sol_float rhs)
 {
-    return fabs(lhs - rhs) <= ((fabs(lhs) > fabs(rhs)
-                               ? fabs(rhs)
-                               : fabs(lhs)) * FLOAT_EPSILON)
-           ? SOL_BOOL_TRUE
-           : SOL_BOOL_FALSE;
+        return fabs(lhs - rhs) <= ((fabs(lhs) > fabs(rhs)
+                                   ? fabs(rhs)
+                                   : fabs(lhs)) * FLOAT_EPSILON)
+               ? SOL_BOOL_TRUE
+               : SOL_BOOL_FALSE;
 }
 
 
@@ -46,11 +46,11 @@ static sol_inline SOL_BOOL float_eq(sol_float lhs, sol_float rhs)
 /* https://stackoverflow.com/questions/17333/what-is-the-most-effective-way-for-float-and-double-comparison*/
 static SOL_BOOL float_gt(sol_float lhs, sol_float rhs)
 {
-    return (lhs - rhs) > ((fabs(lhs) < fabs(rhs)
-                           ? fabs(rhs)
-                           : fabs(lhs)) * FLOAT_EPSILON)
-           ? SOL_BOOL_TRUE
-           : SOL_BOOL_FALSE;
+        return (lhs - rhs) > ((fabs(lhs) < fabs(rhs)
+                              ? fabs(rhs)
+                              : fabs(lhs)) * FLOAT_EPSILON)
+               ? SOL_BOOL_TRUE
+               : SOL_BOOL_FALSE;
 }
 
 
