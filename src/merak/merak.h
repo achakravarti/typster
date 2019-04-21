@@ -1,5 +1,5 @@
-#if (!defined __MERAK_SCREEN)
-#define __MERAK_SCREEN
+#if (!defined __MERAK_API)
+#define __MERAK_API
 
 
 
@@ -69,6 +69,65 @@ typedef struct __merak_area {
 
 
 /*
+ * Interface: vector
+ */
+
+typedef struct __merak_vector merak_vector;
+
+extern sol_erno merak_vector_new(merak_vector **vec);
+
+extern sol_erno merak_vector_new2(merak_vector **vec,
+                                  const sol_float x,
+                                  const sol_float y);
+
+extern sol_erno merak_vector_copy(merak_vector **lhs, const merak_vector *rhs);
+
+extern void merak_vector_free(merak_vector **vec);
+
+extern sol_erno merak_vector_x(const merak_vector *vec, sol_float *x);
+
+extern sol_erno merak_vector_y(const merak_vector *vec, sol_float *y);
+
+extern sol_erno merak_vector_len(const merak_vector *vec, sol_float *len);
+
+extern sol_erno merak_vector_setx(merak_vector *vec, const sol_float x);
+
+extern sol_erno merak_vector_sety(merak_vector *vec, const sol_float y);
+
+extern sol_erno merak_vector_lt(const merak_vector *lhs,
+                                const merak_vector *rhs,
+                                SOL_BOOL *lt);
+
+extern sol_erno merak_vector_eq(const merak_vector *lhs,
+                                const merak_vector *rhs,
+                                SOL_BOOL *eq);
+
+extern sol_erno merak_vector_gt(const merak_vector *lhs,
+                                const merak_vector *rhs,
+                                SOL_BOOL *gt);
+
+extern sol_erno merak_vector_add(merak_vector *lhs, const merak_vector *rhs);
+
+extern sol_erno merak_vector_add2(merak_vector *vec,
+                                  const sol_float x,
+                                  const sol_float y);
+
+extern sol_erno merak_vector_sub(merak_vector *lhs, const merak_vector *rhs);
+
+extern sol_erno merak_vector_sub2(merak_vector *vec,
+                                  const sol_float x,
+                                  const sol_float y);
+
+extern sol_erno merak_vector_mul(merak_vector *vec, const sol_float scalar);
+
+extern sol_erno merak_vector_div(merak_vector *vec, const sol_float scalar);
+
+extern sol_erno merak_vector_norm(merak_vector *vec);
+
+
+
+
+/*
  * Interface: screen
  *
  * Synopsis:
@@ -102,22 +161,6 @@ extern sol_erno merak_screen_render(void);
 
 
 /*
- * Interface: game
- */
-typedef sol_erno (merak_game_delegate)(void);
-
-extern sol_erno merak_game_init(merak_game_delegate *input,
-                                merak_game_delegate *update,
-                                merak_game_delegate *render);
-
-extern void merak_game_exit(void);
-
-extern sol_erno merak_game_run(void);
-
-
-
-
-/*
  * Interface: event
  */
 typedef enum __MERAK_EVENT_CODE {
@@ -145,6 +188,8 @@ typedef struct __merak_sprite merak_sprite;
 
 extern sol_erno merak_texture_new(merak_texture **tex, const char *fpath);
 
+extern sol_erno merak_texture_copy(merak_texture **lhs, merak_texture *rhs);
+
 extern void merak_texture_free(merak_texture **tex);
 
 extern sol_erno merak_texture_area(const merak_texture *tex, merak_area *area);
@@ -162,6 +207,9 @@ extern sol_erno merak_sprite_new(merak_sprite **sprite,
                                  sol_size nrow,
                                  sol_size ncol);
 
+extern sol_erno merak_sprite_copy(merak_sprite **lhs, merak_sprite *rhs);
+
+
 extern void merak_sprite_free(merak_sprite **sprite);
 
 extern sol_erno merak_sprite_area(const merak_sprite *sprite,
@@ -170,13 +218,88 @@ extern sol_erno merak_sprite_area(const merak_sprite *sprite,
 extern sol_erno merak_sprite_nframe(const merak_sprite *sprite,
                                     sol_size *nframe);
 
+extern sol_erno merak_sprite_frame(const merak_sprite *sprite,
+                                   sol_index *row,
+                                   sol_index *col);
+
+extern sol_erno merak_sprite_setframe(merak_sprite *sprite,
+                                      sol_index row,
+                                      sol_index col);
+
 extern sol_erno merak_sprite_draw(const merak_sprite *sprite,
-                                  sol_index row,
-                                  sol_index col,
-                                  const merak_point *loc);
+                                  const merak_point *pos);
 
 
 
 
-#endif /* __MERAK_SCREEN */
+/*
+ * Interface: entity
+ */
+
+typedef struct __merak_entity merak_entity;
+
+typedef sol_erno (merak_entity_delegate)(merak_entity *entity);
+
+extern sol_erno merak_entity_new(merak_entity **entity,
+                                 merak_sprite *sprite,
+                                 merak_entity_delegate *update);
+
+extern sol_erno merak_entity_new2(merak_entity **entity,
+                                  merak_sprite *sprite,
+                                  merak_entity_delegate *update,
+                                  merak_entity_delegate *dispose);
+
+extern sol_erno merak_entity_new3(merak_entity **entity,
+                                  merak_sprite *sprite,
+                                  merak_entity_delegate *update,
+                                  merak_entity_delegate *dispose,
+                                  merak_entity_delegate *draw);
+
+extern sol_erno merak_entity_copy(merak_entity **lhs, merak_entity *rhs);
+
+extern void merak_entity_free(merak_entity **entity);
+
+extern sol_erno merak_entity_vec(const merak_entity *entity,
+                                 merak_vector **vec);
+
+extern sol_erno merak_entity_frame(const merak_entity *entity,
+                                   sol_index *row,
+                                   sol_index *col);
+
+extern sol_erno merak_entity_setvec(merak_entity *entity,
+                                    const merak_vector *vec);
+
+extern sol_erno merak_entity_setframe(merak_entity *entity,
+                                      sol_index row,
+                                      sol_index col);
+
+extern sol_erno merak_entity_move(merak_entity *entity,
+                                  const merak_vector *velocity);
+
+extern sol_erno merak_entity_update(merak_entity *entity);
+
+extern sol_erno merak_entity_draw(merak_entity *entity);
+
+
+
+
+/*
+ * Interface: game
+ */
+typedef sol_erno (merak_game_delegate)(void);
+
+extern sol_erno merak_game_init(merak_game_delegate *input,
+                                merak_game_delegate *update,
+                                merak_game_delegate *render);
+
+extern void merak_game_exit(void);
+
+extern sol_erno merak_game_register(merak_entity *entity);
+
+extern sol_erno merak_game_run(void);
+
+
+
+
+#endif /* __MERAK_API */
 

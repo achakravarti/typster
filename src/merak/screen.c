@@ -22,7 +22,6 @@ extern sol_erno merak_screen_init(const char *title,
                                   SOL_BOOL full)
 {
         const int wflag = full ? SDL_WINDOW_FULLSCREEN : 0;
-        //auto sol_uint width, height;
 
 SOL_TRY:
         sol_assert (title && *title, SOL_ERNO_STR);
@@ -31,8 +30,6 @@ SOL_TRY:
 
         sol_try (sol_ptr_new((sol_ptr **) &screen_inst, sizeof (*screen_inst)));
 
-        //sol_try (merak_area_width(res, &width));
-        //sol_try (merak_area_height(res, &height));
         screen_inst->window = SDL_CreateWindow(title,
                                                SDL_WINDOWPOS_CENTERED,
                                                SDL_WINDOWPOS_CENTERED,
