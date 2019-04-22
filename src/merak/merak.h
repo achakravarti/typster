@@ -324,7 +324,7 @@ extern sol_erno merak_event_init(void);
 
 extern void merak_event_exit(void);
 
-extern sol_erno merak_event_update(MERAK_EVENT_CODE *code);
+extern sol_erno merak_event_update(void);
 
 
 
@@ -439,8 +439,7 @@ extern sol_erno merak_entity_draw(merak_entity *entity);
  */
 typedef sol_erno (merak_game_delegate)(void);
 
-extern sol_erno merak_game_init(merak_game_delegate *input,
-                                merak_game_delegate *update,
+extern sol_erno merak_game_init(merak_game_delegate *update,
                                 merak_game_delegate *render);
 
 extern void merak_game_exit(void);

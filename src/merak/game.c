@@ -25,7 +25,6 @@ struct list {
 
 
 struct game {
-        merak_game_delegate *input;
         merak_game_delegate *update;
         merak_game_delegate *render;
         struct list *entities;
@@ -158,18 +157,16 @@ SOL_FINALLY:
 
 
 
-extern sol_erno merak_game_init(merak_game_delegate *input,
-                                merak_game_delegate *update,
+extern sol_erno merak_game_init(merak_game_delegate *update,
                                 merak_game_delegate *render)
 {
         const int iflag = IMG_INIT_PNG;
 
 SOL_TRY:
-        sol_assert (input && update && render, SOL_ERNO_PTR);
+        sol_assert (update && render, SOL_ERNO_PTR);
         sol_assert (!game_inst, SOL_ERNO_STATE);
 
         sol_try (sol_ptr_new((sol_ptr **) &game_inst, sizeof (*game_inst)));
-        game_inst->input = input;
         game_inst->update = update;
         game_inst->render = render;
 
@@ -234,7 +231,7 @@ SOL_TRY:
         sol_assert (game_inst, SOL_ERNO_STATE);
 
         while (SOL_BOOL_TRUE) {
-                sol_try (game_inst->input());
+                sol_try (merak_event_update());
 
                 sol_try (game_inst->update());
                 sol_try (list_start(game_inst->entities));
