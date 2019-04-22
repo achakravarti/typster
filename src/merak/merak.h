@@ -312,24 +312,6 @@ extern sol_erno merak_keyboard_update(void);
 
 
 /*
- * Interface: event
- */
-typedef enum __MERAK_EVENT_CODE {
-        MERAK_EVENT_CODE_IGNORED = -1,
-        MERAK_EVENT_CODE_NULL = 0,
-        MERAK_EVENT_CODE_QUIT
-} MERAK_EVENT_CODE;
-
-extern sol_erno merak_event_init(void);
-
-extern void merak_event_exit(void);
-
-extern sol_erno merak_event_update(void);
-
-
-
-
-/*
  * Interface: texture
  */
 
@@ -447,6 +429,27 @@ extern void merak_game_exit(void);
 extern sol_erno merak_game_register(merak_entity *entity);
 
 extern sol_erno merak_game_run(void);
+
+
+
+
+/*
+ * Interface: event
+ */
+typedef enum __MERAK_EVENT_CODE {
+        MERAK_EVENT_CODE_QUIT = 0,
+        MERAK_EVENT_CODE_KEYUP,
+        MERAK_EVENT_CODE_KEYDOWN
+} MERAK_EVENT_CODE;
+
+extern sol_erno merak_event_init(void);
+
+extern void merak_event_exit(void);
+
+extern sol_erno merak_event_register(const MERAK_EVENT_CODE event,
+                                     merak_game_delegate *handler);
+
+extern sol_erno merak_event_update(void);
 
 
 
