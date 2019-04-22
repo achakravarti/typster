@@ -324,7 +324,7 @@ extern sol_erno merak_event_init(void);
 
 extern void merak_event_exit(void);
 
-extern sol_erno merak_event_poll(MERAK_EVENT_CODE *code);
+extern sol_erno merak_event_update(MERAK_EVENT_CODE *code);
 
 
 

@@ -16,7 +16,7 @@ sol_erno frame_input(void)
         auto MERAK_EVENT_CODE code;
 
 SOL_TRY:
-        sol_try (merak_event_poll(&code));
+        sol_try (merak_event_update(&code));
 
         while (code) {
                 switch (code) {
@@ -30,7 +30,7 @@ SOL_TRY:
                         break;
                 }
 
-                sol_try (merak_event_poll(&code));
+                sol_try (merak_event_update(&code));
         }
 
 SOL_CATCH:
