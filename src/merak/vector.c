@@ -56,23 +56,32 @@ static SOL_BOOL float_gt(sol_float lhs, sol_float rhs)
 
 
 
+/*
+ *      merak_vector_new() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_new(merak_vector **vec)
 {
         const sol_float def = (sol_float) 0.0;
 
 SOL_TRY:
+                /* initialise vector to default (0.0, 0.0) */
         sol_try (merak_vector_new2(vec, def, def));
 
 SOL_CATCH:
+                /* log current error code */
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
+                /* wind up */
         return sol_erno_get();
 }
 
 
 
 
+/*
+ *      merak_vector_new2() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_new2(merak_vector **vec,
                                   const sol_float x,
                                   const sol_float y)
@@ -80,85 +89,118 @@ extern sol_erno merak_vector_new2(merak_vector **vec,
         auto merak_vector *hnd;
 
 SOL_TRY:
+                /* check preconditions */
         sol_assert (vec, SOL_ERNO_PTR);
 
+                /* allocate memory for new instance */
         sol_try (sol_ptr_new((sol_ptr **) vec, sizeof (**vec)));
         hnd = *vec;
 
+                /* update fields */
         hnd->x = (sol_f32) x;
         hnd->y = (sol_f32) y;
 
 SOL_CATCH:
+                /* log current error code */
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
+                /* wind up */
         return sol_erno_get();
 }
 
 
 
 
+/*
+ *      merak_vector_copy() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_copy(merak_vector **lhs, const merak_vector *rhs)
 {
 SOL_TRY:
+                /* check preconditions */
         sol_assert (rhs, SOL_ERNO_PTR);
 
+                /* clone lhs from rhs */
         sol_try (merak_vector_new2(lhs,
                                    (sol_float) rhs->x,
                                    (sol_float) rhs->y));
 
 SOL_CATCH:
+                /* log current error code */
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
+                /* wind up */
         return sol_erno_get();
 }
 
 
 
 
+/*
+ *      merak_vector_free() - declared in merak/merak.h
+ */
 extern void merak_vector_free(merak_vector **vec)
 {
+                /* release memory allocated to instance */
         sol_ptr_free((sol_ptr **) vec);
 }
 
 
 
 
+/*
+ *      merak_vector_x() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_x(const merak_vector *vec, sol_float *x)
 {
 SOL_TRY:
+                /* check preconditions */
         sol_assert (vec && x, SOL_ERNO_PTR);
 
+                /* return value of x field */
         *x = (sol_float) vec->x;
 
 SOL_CATCH:
+                /* log current error */
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
+                /* wind up */
         return sol_erno_get();
 }
 
 
 
 
+/*
+ *      merak_vector_y() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_y(const merak_vector *vec, sol_float *y)
 {
 SOL_TRY:
+                /* check preconditions */
         sol_assert (vec && y, SOL_ERNO_PTR);
 
+                /* return value of y field */
         *y = (sol_float) vec->y;
 
 SOL_CATCH:
+                /* log current error */
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
+                /* wind up */
         return sol_erno_get();
 }
 
 
 
 
+/*
+ *      merak_vector_len() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_len(const merak_vector *vec, sol_float *len)
 {
 SOL_TRY:
@@ -177,6 +219,9 @@ SOL_FINALLY:
 
 
 
+/*
+ *      merak_vector_setx() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_setx(merak_vector *vec, const sol_float x)
 {
 SOL_TRY:
@@ -194,6 +239,9 @@ SOL_FINALLY:
 
 
 
+/*
+ *      merak_vector_sety() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_sety(merak_vector *vec, const sol_float y)
 {
 SOL_TRY:
@@ -211,6 +259,9 @@ SOL_FINALLY:
 
 
 
+/*
+ *      merak_vector_lt() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_lt(const merak_vector *lhs,
                                 const merak_vector *rhs,
                                 SOL_BOOL *lt)
@@ -234,6 +285,9 @@ SOL_FINALLY:
 
 
 
+/*
+ *      merak_vector_eq() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_eq(const merak_vector *lhs,
                                 const merak_vector *rhs,
                                 SOL_BOOL *eq)
@@ -257,6 +311,9 @@ SOL_FINALLY:
 
 
 
+/*
+ *      merak_vector_gt() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_gt(const merak_vector *lhs,
                                 const merak_vector *rhs,
                                 SOL_BOOL *gt)
@@ -280,6 +337,9 @@ SOL_FINALLY:
 
 
 
+/*
+ *      merak_vector_add() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_add(merak_vector *lhs, const merak_vector *rhs)
 {
 SOL_TRY:
@@ -299,6 +359,9 @@ SOL_FINALLY:
 
 
 
+/*
+ *      merak_vector_add2() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_add2(merak_vector *vec,
                                   const sol_float x,
                                   const sol_float y)
@@ -319,6 +382,9 @@ SOL_FINALLY:
 
 
 
+/*
+ *      merak_vector_sub() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_sub(merak_vector *lhs, const merak_vector *rhs)
 {
 SOL_TRY:
@@ -338,6 +404,9 @@ SOL_FINALLY:
 
 
 
+/*
+ *      merak_vector_sub2() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_sub2(merak_vector *vec,
                                   const sol_float x,
                                   const sol_float y)
@@ -358,6 +427,9 @@ SOL_FINALLY:
 
 
 
+/*
+ *      merak_vector_mul() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_mul(merak_vector *vec, const sol_float scalar)
 {
 SOL_TRY:
@@ -375,6 +447,10 @@ SOL_FINALLY:
 
 
 
+
+/*
+ *      merak_vector_div() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_div(merak_vector *vec, const sol_float scalar)
 {
 SOL_TRY:
@@ -394,6 +470,9 @@ SOL_FINALLY:
 
 
 
+/*
+ *      merak_vector_norm() - declared in merak/merak.h
+ */
 extern sol_erno merak_vector_norm(merak_vector *vec)
 {
         auto sol_float len;
