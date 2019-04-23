@@ -417,6 +417,23 @@ extern sol_erno merak_entity_draw(merak_entity *entity);
 
 
 /*
+ * Interface: arena
+ */
+
+extern sol_erno merak_arena_init(void);
+
+extern void merak_arena_exit(void);
+
+extern sol_erno merak_arena_push(merak_entity *entity);
+
+extern sol_erno merak_arena_update(void);
+
+extern sol_erno merak_arena_draw(void);
+
+
+
+
+/*
  * Interface: game
  */
 typedef sol_erno (merak_game_delegate)(void);
