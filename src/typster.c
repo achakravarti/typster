@@ -13,20 +13,7 @@ static typster_enemy *enemy = SOL_PTR_NULL;
         /* updates the state of a frame */
 sol_erno frame_update(void)
 {
-        auto merak_shade shade;
-
-SOL_TRY:
-        shade.red = 128;
-        shade.green = 128;
-        shade.blue = 255;
-        shade.alpha = 96;
-        sol_try (merak_screen_clear(&shade));
-
-SOL_CATCH:
-        sol_log_erno(sol_erno_get());
-
-SOL_FINALLY:
-        return sol_erno_get();
+        return SOL_ERNO_NULL;
 }
 
 
@@ -35,8 +22,14 @@ SOL_FINALLY:
         /* renders a frame */
 sol_erno frame_render(void)
 {
+        auto merak_shade shade;
+
 SOL_TRY:
-        sol_assert (SOL_BOOL_TRUE, SOL_ERNO_STATE);
+        shade.red = 128;
+        shade.green = 128;
+        shade.blue = 255;
+        shade.alpha = 96;
+        sol_try (merak_screen_clear(&shade));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());

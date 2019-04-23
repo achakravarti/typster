@@ -298,13 +298,17 @@ typedef enum __MERAK_KEYBOARD_KEY {
         MERAK_KEYBOARD_KEY_RMETA = 0xe7,  /* Keyboard Right GUI */
 } MERAK_KEYBOARD_KEY;
 
+typedef enum __MERAK_KEYBOARD_STATE {
+        MERAK_KEYBOARD_STATE_UP = 0,
+        MERAK_KEYBOARD_STATE_DOWN
+} MERAK_KEYBOARD_STATE;
+
 extern sol_erno merak_keyboard_init(void);
 
 extern void merak_keyboard_exit(void);
 
-extern sol_erno merak_keyboard_up(MERAK_KEYBOARD_KEY key, SOL_BOOL *up);
-
-extern sol_erno merak_keyboard_down(MERAK_KEYBOARD_KEY key, SOL_BOOL *down);
+extern sol_erno merak_keyboard_state(const MERAK_KEYBOARD_KEY key,
+                                     MERAK_KEYBOARD_STATE *state);
 
 extern sol_erno merak_keyboard_update(void);
 

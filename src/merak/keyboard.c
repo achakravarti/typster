@@ -35,31 +35,14 @@ extern void merak_keyboard_exit(void)
 
 
 
-extern sol_erno merak_keyboard_up(MERAK_KEYBOARD_KEY key, SOL_BOOL *up)
+extern sol_erno merak_keyboard_state(const MERAK_KEYBOARD_KEY key,
+                                     MERAK_KEYBOARD_STATE *state)
 {
 SOL_TRY:
         sol_assert (key_states, SOL_ERNO_STATE);
-        sol_assert (up, SOL_ERNO_PTR);
+        sol_assert (state, SOL_ERNO_PTR);
 
-        *up = key_states[key] == 0;
-
-SOL_CATCH:
-        sol_log_erno(sol_erno_get());
-
-SOL_FINALLY:
-        return sol_erno_get();
-}
-
-
-
-
-extern sol_erno merak_keyboard_down(MERAK_KEYBOARD_KEY key, SOL_BOOL *down)
-{
-SOL_TRY:
-        sol_assert (key_states, SOL_ERNO_STATE);
-        sol_assert (down, SOL_ERNO_PTR);
-
-        *down = key_states[key] == 1;
+        *state = key_states[key];
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
