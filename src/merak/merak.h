@@ -443,8 +443,6 @@ extern sol_erno merak_game_init(merak_game_delegate *update,
 
 extern void merak_game_exit(void);
 
-extern sol_erno merak_game_register(merak_entity *entity);
-
 extern sol_erno merak_game_run(void);
 
 

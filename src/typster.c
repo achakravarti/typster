@@ -64,10 +64,11 @@ SOL_TRY:
         sol_try (merak_game_init(&frame_update, &frame_render));
         sol_try (merak_screen_init("Typster", &res, SOL_BOOL_TRUE));
         sol_try (merak_event_init());
+        sol_try (merak_arena_init());
         sol_try (merak_keyboard_init());
 
         sol_try (typster_enemy_new(&enemy));
-        sol_try (merak_game_register((merak_entity *) enemy));
+        sol_try (merak_arena_push((merak_entity *) enemy));
 
         sol_try (merak_game_run());
 
@@ -80,6 +81,7 @@ SOL_FINALLY:
         merak_screen_exit();
         merak_event_exit();
         merak_keyboard_exit();
+        merak_arena_exit();
         merak_game_exit();
 
         sol_log_close();
