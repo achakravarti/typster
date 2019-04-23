@@ -8,14 +8,31 @@ static sol_erno delegate_update(merak_entity *enemy)
 {
         const sol_index row = 1;
         const sol_index col = ((SDL_GetTicks() / 100) % 4) + 1;
+        const sol_float x = (sol_float) 0.1;
+        const sol_float y = (sol_float) 0.0;
+        auto merak_vector *velocity = SOL_PTR_NULL;
+        auto MERAK_KEYBOARD_STATE left, right;
 
 SOL_TRY:
+        sol_try (merak_keyboard_state(MERAK_KEYBOARD_KEY_LEFT, &left));
+        if (left == MERAK_KEYBOARD_STATE_DOWN) {
+                sol_try (merak_vector_new2(&velocity, -x, y));
+                sol_try (merak_entity_move(enemy, velocity));
+        }
+
+        sol_try (merak_keyboard_state(MERAK_KEYBOARD_KEY_RIGHT, &right));
+        if (right == MERAK_KEYBOARD_STATE_DOWN) {
+                sol_try (merak_vector_new2(&velocity, x, y));
+                sol_try (merak_entity_move(enemy, velocity));
+        }
+
         sol_try(merak_entity_setframe(enemy, row, col));
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
 SOL_FINALLY:
+        merak_vector_free(&velocity);
         return sol_erno_get();
 }
 

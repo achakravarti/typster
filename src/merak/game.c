@@ -17,8 +17,6 @@ struct game {
 static sol_tls struct game *game_inst = SOL_PTR_NULL;
 
 
-
-
 extern sol_erno merak_game_init(merak_game_delegate *update,
                                 merak_game_delegate *render)
 {
@@ -69,14 +67,12 @@ SOL_TRY:
         sol_assert (game_inst, SOL_ERNO_STATE);
 
         while (SOL_BOOL_TRUE) {
-                sol_try (merak_event_update());
-
                 sol_try (game_inst->update());
+                sol_try (merak_event_update());
                 sol_try (merak_arena_update());
 
                 sol_try (game_inst->render());
                 sol_try (merak_arena_draw());
-
                 sol_try (merak_screen_render());
         }
 
