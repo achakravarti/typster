@@ -218,8 +218,64 @@ extern sol_erno merak_screen_render(void);
 
 
 /*
- * Interface: keyboard
- * https://gist.github.com/MightyPork/6da26e382a7ad91b5496ee55fdc73db2
+ * Interface: keyboard manager
+ *
+ * Abstract:
+ *      The keyboard is probably the most important input device for games (at
+ *      least on PCs). Although modern USB keyboards have many varieties, and
+ *      support several additional keys for internationalisation, the Merak
+ *      keyboard manager uses only a subset of the key codes defined by the USB
+ *      HID protocol.
+ *
+ *      This subset accounts for the common US keyboard layout (plus the non-US
+ *      variation on the backslash key) along with the common media keys. I'm
+ *      guessing that this subset should also be good enough for Mac keyboards.
+ *
+ * Description:
+ *      The keyboard is not represented by any type in Merak; instead, there is
+ *      only an interface through which the common keyboard operations are
+ *      performed. The functions that form this interface return a `sol_erno`
+ *      error code to indicate whether or not the operation succeeded. The only
+ *      exception is `merak_keyboard_exit()`, which returns `void` since it's a
+ *      finalisation routine.
+ *
+ *      Supporting this interface are two enumerations: `MERAK_KEYBOARD_KEY` and
+ *      `MERAK_KEYBOARD_STATE` which, respectively, enumerate the common
+ *      keyboard key codes, and the keyboard key states. The values enumerated
+ *      by `MERAK_KEYBOARD_KEY` follow the USB HID protocol.
+ *
+ *      The keyboard manager interface provides two houskeeping functions.
+ *      `merak_keyboard_init()` is used to initialise the keyboard manager, and
+ *      `merak_keyboard_exit()` is used to release it.
+ *
+ *      There is only one accessor function in the keyboard manager interface.
+ *      `merak_keyboard_state()` determines the current state (enumerated by
+ *      `MERAK_KEYBOARD_STATE`) of a given keyboard key (enumerated by
+ *      `MERAK_KEYBOARD_KEY`.
+ *
+ *      The `merak_keyboard_update()` function is the only mutator in the
+ *      keyboard manager interface. This function updates the current state of
+ *      the keyboard manager, and is triggered automatically during the game
+ *      loop when a keyboard key is pressed. For this reason, it's not required
+ *      to call this function before making a call to `merak_keyboard_state()`.
+ *
+ * Usage:
+ *      The first step in using the keyboard manager is to initialise it only
+ *      **once** at the start of the game by a call to `merak_keyboard_init()`.
+ *      A `SOL_ERNO_STATE` error is thrown in case `merak_keyboard_init()` is
+ *      called after the keyboard manager has already been initialised.
+ *
+ *      Typically, you would call `merak_keyboard_state()` whenever you need to
+ *      determine which key of the keyboard has been pressed. As mentioned
+ *      earlier, it's not necessary to call `merak_keyboard_update()` before
+ *      this as the game loop already takes care of calling it whenever a
+ *      keyboard event is fired.
+ *
+ *      Once you're through with the game and are winding up, you'd need to call
+ *      `merak_keyboard_exit()` to release the keyboard manager.
+ *
+ * References:
+ *   1. https://gist.github.com/MightyPork/6da26e382a7ad91b5496ee55fdc73db2
  */
 typedef enum __MERAK_KEYBOARD_KEY {
         MERAK_KEYBOARD_KEY_NONE = 0x00,     /* No key pressed */
@@ -364,10 +420,10 @@ extern sol_erno merak_keyboard_init(void);
 
 extern void merak_keyboard_exit(void);
 
-extern sol_erno merak_keyboard_state(const MERAK_KEYBOARD_KEY key,
-                                     MERAK_KEYBOARD_STATE *state);
+extern sol_hot sol_erno merak_keyboard_state(const MERAK_KEYBOARD_KEY key,
+                                             MERAK_KEYBOARD_STATE *state);
 
-extern sol_erno merak_keyboard_update(void);
+extern sol_hot sol_erno merak_keyboard_update(void);
 
 
 
