@@ -70,8 +70,73 @@ typedef struct __merak_area {
 
 /*
  * Interface: vector
+ *
+ * Abstract:
+ *      A vector in Merak is similar to the mathematical concept of a vector. It
+ *      is a construct that represents both a magnitude along with a direction
+ *      in 2D space. Using this definition, a vector can be used to represent a
+ *      change in spatial orientation from a given location. A vector may also
+ *      represent a point in 2D space as a change of given magnitude and
+ *      direction from the origin.
+ *
+ *      A vector in Merak has the following properties:
+ *        - an x co-ordinate,
+ *        - a y co-ordinate, and
+ *        - a length (magnitude)
+ *
+ *     Two vectors may be compared by comparing their lengths; thus two vectors
+ *     are equal if their lengths are equal. A vector with a length of zero is
+ *     called a null vector. A vector may be added and subtracted with another
+ *     vector (called the velocity vector), resulting in a change in both
+ *     magnitude and direction. A vector may be multiplied and divided by a
+ *     scalar (magnitude), in which case there is only a change in the length,
+ *     but not in the direction.
+ *
+ *     The normal form of a vector is a vector with the same direction, but with
+ *     the inverse of its original magnitude as its length.
+ *
+ * Detail:
+ *      A vector in Merak is represented by the opaque type `merak_vector`. The
+ *      functions that form the interface for `merak_vector` return a `sol_erno`
+ *      error code to indicate whether or not the operation succeeded. The
+ *      notable exception to this is the `merak_vector_free()` function, which
+ *      returns `void`, since it's a finalisation routine.
+ *
+ *      The first parameter of all the interface functions takes a handle to a
+ *      `merak_vector` instance. A `merak_vector **` handle indicates that a new
+ *      `merak_vector` instance will be created, a `merak_vector *` handle
+ *      indicates that an existing instance will be modified, and a `const
+ *      merak_vector *` handle indicates that an existing instance won't be
+ *      modified.
+ *
+ *      Assumptions.
+ *
+ *      The interface for `merak_vector` provides four housekeeping functions.
+ *      `merak_vector_new()` and `merak_vector_new2()` are responsible for
+ *      creating a new `merak_vector` instance. The former initialises the newly
+ *      created instance to a null vector, whereas the latter initialises the
+ *      instance with specific coordinates. `merak_vector_copy()` creates a copy
+ *      of an existing instance, and `merak_vector_free()` destroys an existing
+ *      instance by releasing the resources allocated to it.
+ *
+ *      There are three accessor functions for a `merak_vector` instance.
+ *      `merak_vector_x()` and `merak_vector_y()` get the x and y coordinates
+ *      respectively of `merak_vector` instance, and `merak_vector_len()` gets
+ *      length.
+ *
+ *      There are three mutator functions for a `merak_vector` instance.
+ *      `merak_vector_setx()` and `merak_vector_sety()` set the x and y
+ *      coordinates respectively of the instance, and `merak_vector_norm()`
+ *      transforms the instance to its normal form.
+ *
+ *      There are seven operator functions for a `merak_vector` instance.
+ *      `merak_vector_lt()`, `merak_vector_eq()`, and `merak_vector_gt()`
+ *      compare, respectively, whether a `merak_vector` instance is less than,
+ *      equal to, or greater than another instance. `merak_vector_add()` and
+ *      `merak_vector_sub()` add and subtract respectively one instance with
+ *      another. `merak_vector_mul()` and `merak_vector_div()` multiplies and
+ *      divides respectively an instance with a scalar.
  */
-
 typedef struct __merak_vector merak_vector;
 
 extern sol_erno merak_vector_new(merak_vector **vec);
@@ -94,6 +159,8 @@ extern sol_erno merak_vector_setx(merak_vector *vec, const sol_float x);
 
 extern sol_erno merak_vector_sety(merak_vector *vec, const sol_float y);
 
+extern sol_erno merak_vector_norm(merak_vector *vec);
+
 extern sol_erno merak_vector_lt(const merak_vector *lhs,
                                 const merak_vector *rhs,
                                 SOL_BOOL *lt);
@@ -108,21 +175,11 @@ extern sol_erno merak_vector_gt(const merak_vector *lhs,
 
 extern sol_erno merak_vector_add(merak_vector *lhs, const merak_vector *rhs);
 
-extern sol_erno merak_vector_add2(merak_vector *vec,
-                                  const sol_float x,
-                                  const sol_float y);
-
 extern sol_erno merak_vector_sub(merak_vector *lhs, const merak_vector *rhs);
-
-extern sol_erno merak_vector_sub2(merak_vector *vec,
-                                  const sol_float x,
-                                  const sol_float y);
 
 extern sol_erno merak_vector_mul(merak_vector *vec, const sol_float scalar);
 
 extern sol_erno merak_vector_div(merak_vector *vec, const sol_float scalar);
-
-extern sol_erno merak_vector_norm(merak_vector *vec);
 
 
 
