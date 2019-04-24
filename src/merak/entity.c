@@ -23,9 +23,7 @@ static sol_inline SOL_BOOL float_lt(sol_float lhs, sol_float rhs)
 
         return (rhs - lhs) > ((fabs(lhs) < fabs(rhs)
                               ? fabs(rhs)
-                              : fabs(lhs)) * epsilon)
-               ? SOL_BOOL_TRUE
-               : SOL_BOOL_FALSE;
+                              : fabs(lhs)) * epsilon);
 }
 
 
@@ -41,7 +39,7 @@ SOL_TRY:
         sol_assert (entity, SOL_ERNO_PTR);
 
         sol_try (merak_vector_x(entity->vec, &x));
-        sol_try (merak_vector_x(entity->vec, &y));
+        sol_try (merak_vector_y(entity->vec, &y));
 
         if (sol_likely (!float_lt(x, zero) && !float_lt(y, zero))) {
                 pos.x = (sol_u16) x;
