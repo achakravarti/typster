@@ -22,6 +22,7 @@ SOL_TRY:
 
         sol_try (merak_keyboard_state(MERAK_KEYBOARD_KEY_RIGHT, &right));
         if (right == MERAK_KEYBOARD_STATE_DOWN) {
+                merak_vector_free(&velocity);
                 sol_try (merak_vector_new2(&velocity, x, y));
                 sol_try (merak_entity_move(enemy, velocity));
         }
