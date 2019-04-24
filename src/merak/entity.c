@@ -135,6 +135,8 @@ SOL_TRY:
         ctx->dispose = dispose;
         ctx->draw = draw;
 
+        sol_log_trace("new entity created");
+
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
@@ -176,6 +178,7 @@ extern void merak_entity_free(merak_entity **entity)
         }
 
         sol_ptr_free((sol_ptr **) entity);
+        sol_log_trace("entity destroyed");
 }
 
 

@@ -39,6 +39,8 @@ SOL_TRY:
         arena_entities->curr = SOL_PTR_NULL;
         arena_entities->nelem = (sol_size) 0;
 
+        sol_log_trace("arena initialised");
+
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
 
@@ -62,9 +64,10 @@ extern void merak_arena_exit(void)
                         merak_entity_free(&node->elem);
                         sol_ptr_free((sol_ptr **) &node);
                 }
-
-                sol_ptr_free ((sol_ptr **) arena_entities);
         }
+
+        sol_ptr_free((sol_ptr **) &arena_entities);
+        sol_log_trace("arena exited");
 }
 
 
