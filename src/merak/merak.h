@@ -577,5 +577,51 @@ extern sol_erno merak_event_update(void);
 
 
 
+/*
+ * Interface: scene
+ */
+
+typedef struct __merak_scene merak_scene;
+
+typedef sol_erno (merak_scene_delegate)(merak_scene *scene);
+
+extern sol_erno merak_scene_new(merak_scene **scene,
+                                merak_scene_delegate *update,
+                                merak_scene_delegate *render,
+                                merak_scene_delegate *start,
+                                merak_scene_delegate *stop);
+
+extern sol_erno merak_scene_copy(merak_scene **lhs, merak_scene *rhs);
+
+extern void merak_scene_free(merak_scene **scene);
+
+extern sol_erno merak_scene_update(merak_scene *scene);
+
+extern sol_erno merak_scene_render(merak_scene *scene);
+
+extern sol_erno merak_scene_start(merak_scene *scene);
+
+extern sol_erno merak_scene_stop(merak_scene *scene);
+
+
+
+
+/*
+ * Interface: finite scene machine
+ */
+
+extern sol_erno merak_fsm_init(void);
+
+extern void merak_fsm_exit(void);
+
+extern sol_erno merak_fsm_push(merak_scene *scene);
+
+extern sol_erno merak_fsm_replace(merak_scene *scene);
+
+extern sol_erno merak_fsm_pop(void);
+
+
+
+
 #endif /* __MERAK_API */
 
