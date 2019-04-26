@@ -169,14 +169,16 @@ extern void merak_entity_free(merak_entity **entity)
         auto merak_entity *hnd;
 
         if (sol_likely (entity && (hnd = *entity))) {
-                (void) hnd->dispose(hnd);
+                if (!(--hnd->nref)) {
+                        (void) hnd->dispose(hnd);
 
-                merak_sprite_free(&hnd->sprite);
-                merak_vector_free(&hnd->vec);
+                        merak_sprite_free(&hnd->sprite);
+                        merak_vector_free(&hnd->vec);
+
+                        sol_ptr_free((sol_ptr **) entity);
+                        sol_log_trace("entity destroyed");
+                }
         }
-
-        sol_ptr_free((sol_ptr **) entity);
-        sol_log_trace("entity destroyed");
 }
 
 

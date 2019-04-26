@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <stdlib.h>
 #include "merak.h"
 
 
@@ -50,11 +49,8 @@ extern void merak_game_exit(void)
 {
         if (sol_likely (game_inst)) {
                 sol_ptr_free((sol_ptr **) &game_inst);
-
                 SDL_Quit();
                 IMG_Quit();
-
-                exit(SOL_ERNO_NULL);
         }
 }
 
