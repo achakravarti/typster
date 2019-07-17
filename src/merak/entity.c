@@ -19,7 +19,7 @@ struct __merak_entity {
 static sol_erno draw_default(merak_entity *entity)
 {
         const sol_float zero = (sol_float) 0.0;
-        const sol_float epsilon = (sol_float) 0.000001;
+        //const sol_float epsilon = (sol_float) 0.000001;
         auto sol_float x, y;
         auto merak_point pos;
 
@@ -29,8 +29,7 @@ SOL_TRY:
         sol_try (merak_vector_x(entity->vec, &x));
         sol_try (merak_vector_y(entity->vec, &y));
 
-        if (sol_likely (!sol_float_lt(x, zero, epsilon)
-                        && !sol_float_lt(y, zero, epsilon))) {
+        if (sol_likely (!sol_float_lt(x, zero) && !sol_float_lt(y, zero))) {
                 pos.x = (sol_u16) x;
                 pos.y = (sol_u16) y;
                 sol_try (merak_sprite_draw(entity->sprite, &pos));

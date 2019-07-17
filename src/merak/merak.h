@@ -4,14 +4,7 @@
 
 
 
-#include "../../../sol/inc/env.h"
-#include "../../../sol/inc/error.h"
-#include "../../../sol/inc/hint.h"
-#include "../../../sol/inc/libc.h"
-#include "../../../sol/inc/log.h"
-#include "../../../sol/inc/prim.h"
-#include "../../../sol/inc/ptr.h"
-#include "../../../sol/inc/test.h"
+#include "../../../sol/src/api.h"
 
 
 

@@ -45,12 +45,6 @@ struct __merak_vector {
 
 
 
-        /* define the epsilon value used for comparing floating-point values */
-#define FLOAT_EPSILON (0.000001f)
-
-
-
-
         /* implement the merak_vector_new() interface function; we defer the
          * precondition check for @vec to merak_vector_new2() */
 extern sol_erno merak_vector_new(merak_vector **vec)
@@ -228,7 +222,7 @@ extern sol_erno merak_vector_norm(merak_vector *vec)
 SOL_TRY:
         sol_try (merak_vector_len(vec, &len));
 
-        if (sol_likely (!sol_float_eq(len, (sol_float) 0.0, FLOAT_EPSILON)))
+        if (sol_likely (!sol_float_eq(len, (sol_float) 0.0)))
                 sol_try (merak_vector_mul(vec, (1.0 / len)));
 
 SOL_CATCH:
@@ -256,7 +250,7 @@ SOL_TRY:
 
         sol_try (merak_vector_len(lhs, &llen));
         sol_try (merak_vector_len(rhs, &rlen));
-        *lt = sol_float_lt(llen, rlen, FLOAT_EPSILON);
+        *lt = sol_float_lt(llen, rlen);
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -283,7 +277,7 @@ SOL_TRY:
 
         sol_try (merak_vector_len(lhs, &llen));
         sol_try (merak_vector_len(rhs, &rlen));
-        *eq = sol_float_eq(llen, rlen, FLOAT_EPSILON);
+        *eq = sol_float_eq(llen, rlen);
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -310,7 +304,7 @@ SOL_TRY:
 
         sol_try (merak_vector_len(lhs, &llen));
         sol_try (merak_vector_len(rhs, &rlen));
-        *gt = sol_float_gt(llen, rlen, FLOAT_EPSILON);
+        *gt = sol_float_gt(llen, rlen);
 
 SOL_CATCH:
         sol_log_erno(sol_erno_get());
@@ -390,8 +384,7 @@ extern sol_erno merak_vector_div(merak_vector *vec, const sol_float scalar)
 {
 SOL_TRY:
         sol_assert (vec, SOL_ERNO_PTR);
-        sol_assert (!sol_float_eq(scalar, (sol_float) 0.0, FLOAT_EPSILON),
-                    SOL_ERNO_RANGE);
+        sol_assert (!sol_float_eq(scalar, (sol_float) 0.0), SOL_ERNO_RANGE);
 
         vec->x /= (sol_f32) scalar;
         vec->y /= (sol_f32) scalar;
